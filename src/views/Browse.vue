@@ -1,6 +1,8 @@
 <template>
   <div>
-      浏览页面
+      <keep-alive>
+          这是浏览页面
+      </keep-alive>
   </div>
 </template>
 
