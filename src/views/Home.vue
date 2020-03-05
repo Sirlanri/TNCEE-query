@@ -1,18 +1,47 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <el-tabs v-model="activeName" @tab-click="change">
+      
+        <el-tab-pane label="输入分数选专业" name="search" >
+          <first></first>
+        </el-tab-pane>
+      
+      <el-tab-pane label="浏览各专业分数" name="browse" >
+        <second></second>
+      </el-tab-pane>
+    </el-tabs>
+
+    <router-view></router-view>
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import forecast from '@/views/Forecast.vue';
+import browse from '@/views/Browse.vue';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    first:forecast,
+    second:browse
+  },
+  data(){
+    return {
+      activeName:"search",
+    }
+  },
+  methods:{
+    change(tab, event){
+      console.log(tab,event)
+    },
+    
   }
+
 }
 </script>
+
+<style>
+
+</style>
