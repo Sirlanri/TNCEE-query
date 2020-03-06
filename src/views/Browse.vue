@@ -225,6 +225,10 @@
             </el-submenu>
           </el-menu>
         </el-col>
+        <el-col :span="18">
+          当前选择专业：<span id="choosenName">{{choosenName}}</span>
+        <tongji></tongji>
+        </el-col>
 
       </el-row>
     </keep-alive>
@@ -232,23 +236,31 @@
 </template>
 
 <script>
+import tongji from '@/components/tongji.vue';
+
 export default {
+  components:{
+    tongji
+  },
   data() {
     return {
       activeNames: ["all"],
-      isheng: true
+      isheng: true,
+      choosenName:'',
     };
   },
   methods: {
     choose(index) {
       console.log(index); //path是要的路径
+      this.choosenName=index;
     }
   }
 };
 </script>
 
 <style>
-.major {
-  margin-top: 100px;
+#choosenName{
+  margin-top: 20px;
+  font-size: 1.4rem;
 }
 </style>

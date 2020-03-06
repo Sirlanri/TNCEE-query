@@ -19,8 +19,14 @@ const routes = [
       {
         path:'Browse',
         name:'Browse',
-        component:()=>import('../views/Browse.vue')
-    
+        component:()=>import('../views/Browse.vue'),
+        children:[
+          {
+            path:'tongji',
+            name:"tongji",
+            component:()=>import('@/components/tongji.vue')
+          }
+        ]
       },
     ]
   },
