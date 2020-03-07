@@ -247,13 +247,16 @@ export default {
     return {
       activeNames: ["工业设计"],
       isheng: true,
-      choosenName:store.state.majorNow.name,
+      choosenName:'',
     };
   },
   methods: {
     choose(index) {
       console.log(index); //path是要的路径
       store.commit('isChoosen',index)
+      this.choosenName=index
+      
+      
       
       
     }

@@ -13,7 +13,6 @@ export default{
   data(){
     return{
       charts:'',
-      opinionData:[eval(store.state.majorNow.scoreave)]
     }
   },
   methods:{
@@ -24,7 +23,7 @@ export default{
           trigger:'axis'
         },
         legend:{
-          data:['录取分数变化']
+          data:['平均分','最低分']
         },
         grid:{
           left: '3%',
@@ -46,14 +45,29 @@ export default{
           type:'value'
         },
         series:[{
-          name:"录取分数变化",
+          name:"最低分",
           type:'line',
           stack:'总量',
-          data:this.opinionData
+          data:this.convert(store.state.majorNow.scoremin)
+        },
+        {
+          name:"平均分",
+          type:'line',
+          data:this.convert(store.state.majorNow.scoreave)
         }]
       })
+    },
+
+    convert(scores){
+      var after = [];
+      for (var score in scores) {
+        after.push(scores[score])
+        console.log(scores[score]);
+      }
+      return after
     }
   },
+
   mounted(){
     this.$nextTick(function(){
       this.drawLine('first')

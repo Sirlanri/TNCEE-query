@@ -43,16 +43,17 @@ export default new Vuex.Store({
           return true
         }
       }
-      console.log("向后端请求吧");
+      return false
       
     },
+    
     getMajor(state,majorName){
       axios.post(state.backAddress+'yuming',majorName)
         .then(res=>{
           console.log(res)
-
         })
-    }
+    },
+
 
 
   },
