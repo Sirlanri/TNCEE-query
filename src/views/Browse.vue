@@ -237,6 +237,7 @@
 
 <script>
 import tongji from '@/components/tongji.vue';
+import store from '@/store/index'
 
 export default {
   components:{
@@ -244,15 +245,17 @@ export default {
   },
   data() {
     return {
-      activeNames: ["all"],
+      activeNames: ["工业设计"],
       isheng: true,
-      choosenName:'',
+      choosenName:store.state.majorNow.name,
     };
   },
   methods: {
     choose(index) {
       console.log(index); //path是要的路径
-      this.choosenName=index;
+      store.commit('isChoosen',index)
+      
+      
     }
   }
 };

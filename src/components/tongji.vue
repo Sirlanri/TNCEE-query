@@ -1,33 +1,72 @@
 <template>
-  <div>
-    这个页面是echart图标
-    <ve-line :data="chartData1"
-      :scale="conf.scale"
-      :min="conf.min"
-    ></ve-line>
+  <div id="first" >
+
   </div>
 </template>
 
 <script>
-export default {
+import echarts from 'echarts';
+import store from '@/store/index';
+
+export default{
+  name:'',
   data(){
     return{
-      conf:{
-        scale:[true,true],
-        minnum:[500,"17"]
-      },
-      chartData1:{
-        columns:['年级','平均分','最低分'],
-        rows:[
-          {'年级':'17','平均分':515,'最低分':509},
-          {'年级':'18','平均分':517,'最低分':504},
-          {'年级':'19','平均分':530,'最低分':512},
-        ]
-      }
+      charts:'',
+      opinionData:[eval(store.state.majorNow.scoreave)]
     }
+  },
+  methods:{
+    drawLine(id){
+      this.charts = echarts.init(document.getElementById(id))
+      this.charts.setOption({
+        tooltip:{
+          trigger:'axis'
+        },
+        legend:{
+          data:['录取分数变化']
+        },
+        grid:{
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox:{
+          feature:{
+            saveImage:{}
+          }
+        },
+        xAxis:{
+          type:'category',
+          boundaryGap:false,
+          data: ["17级","18级","19级"]
+        },
+        yAxis:{
+          type:'value'
+        },
+        series:[{
+          name:"录取分数变化",
+          type:'line',
+          stack:'总量',
+          data:this.opinionData
+        }]
+      })
+    }
+  },
+  mounted(){
+    this.$nextTick(function(){
+      this.drawLine('first')
+    })
   }
-};
+}
+    
+
 </script>
 
 <style>
+#first{
+  width: 600px;
+  height: 400px;
+}
 </style>

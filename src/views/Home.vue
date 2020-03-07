@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      activeName: "search"
+      activeName: "browse"
     };
   },
   methods: {
