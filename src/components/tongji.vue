@@ -1,5 +1,5 @@
 <template>
-  <div id="first" >
+  <div class="first" >
 
   </div>
 </template>
@@ -8,7 +8,7 @@
 import echarts from 'echarts';
 import store from '@/store/index';
 
-export default{
+export default {
   name:'',
   data(){
     return{
@@ -19,7 +19,7 @@ export default{
   computed:{
     majorNow:function(){
       return store.state.majorNow
-    }
+    },
   },
   watch:{
     majorNow:function(){
@@ -27,15 +27,16 @@ export default{
     }
   },
   methods:{
-    drawLine(id){
-      this.charts = echarts.init(document.getElementById(id))
+    drawLine(classname){
+      this.charts = echarts.init(document.getElementsByClassName(classname)[0])
       this.charts.setOption({
         tooltip:{
           trigger:'axis'
         },
         legend:{
-          data:['平均分','最低分']
+          data:['最低分','平均分']
         },
+
         grid:{
           left: '3%',
           right: '4%',
@@ -47,25 +48,30 @@ export default{
             saveImage:{}
           }
         },
+        
         xAxis:{
           type:'category',
           boundaryGap:false,
           data: ["17级","18级","19级"]
         },
         yAxis:{
-          type:'value'
+          type:'value',
+          min:'dataMin',
+          max:'dataMax',
         },
-        series:[{
+        series:[
+          {
+          name:"平均分",
+          type:'line',
+          data:this.convert(this.majorNow.scoreave)
+          },
+          {
           name:"最低分",
           type:'line',
           stack:'总量',
           data:this.convert(this.majorNow.scoremin)
         },
-        {
-          name:"平均分",
-          type:'line',
-          data:this.convert(this.majorNow.scoreave)
-        }]
+        ]
       })
     },
 
@@ -86,8 +92,8 @@ export default{
 </script>
 
 <style>
-#first{
-  width: 600px;
+.first{
+  width: 100%;
   height: 400px;
 }
 </style>

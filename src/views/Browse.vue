@@ -225,39 +225,93 @@
             </el-submenu>
           </el-menu>
         </el-col>
-        <el-col :span="18">
-          当前选择专业：<span id="choosenName">{{choosenName}}</span>
-        <tongji></tongji>
-        </el-col>
 
+        <el-col :span="18">
+          <el-row :gutter="15">
+
+            <el-col :span="6">
+              <el-select v-model="location" placeholder="选择你的地区">
+              <el-option
+                v-for="(province,index) in provinces"
+                :key="index"
+                :label="province"
+                :value="province"
+              ></el-option>
+            </el-select>
+            </el-col>
+
+            <el-col :span="6">
+              <el-select v-model="value" placeholder="选择科目类别">
+              <el-option
+                v-for="item in opentions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+            </el-col>
+
+            <el-col :span="6">
+              <span id="choosenName">{{choosenName}}</span>
+            </el-col>
+
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <tongji></tongji>
+            </el-col>
+            <el-col :span="12">
+              <xingbie></xingbie>
+            </el-col>
+          </el-row>
+          
+          
+
+          
+        </el-col>
+        
       </el-row>
+      
+      
+      
     </keep-alive>
   </div>
 </template>
 
 <script>
 import tongji from '@/components/tongji.vue';
+import xingbie from '@/components/xingbie.vue';
 import store from '@/store/index'
 
 export default {
   components:{
-    tongji
+    tongji,xingbie
   },
   data() {
     return {
       activeNames: ["工业设计"],
       isheng: true,
       choosenName:'',
+      value:'理工',
+      location:'山东省',
+      opentions:[
+        {value:'理工',label:'理工'},
+        {value:'文史',label:'文史'},
+        {value:'艺文',label:'艺文'},
+        {value:'艺理',label:'艺理'},
+        {value:'200',label:'200'}
+      ],
+      provinces:[
+        "山东省","河北省","山西省","辽宁省","吉林省","黑龙江省","江苏省","浙江省","安徽省","福建省","江西省","河南省","湖北省","湖南省","广东省","海南省","四川省","贵州省","云南省","陕西省","甘肃省","青海省","台湾省","北京市","天津市","上海市","重庆市","内蒙古自治区","广西壮族自治区","宁夏回族自治区","新疆维吾尔自治区","西藏自治区","香港特别行政区","澳门特别行政区"
+      ]
     };
   },
   methods: {
     choose(index) {
-      console.log(index); //path是要的路径
-      store.commit('isChoosen',index)
+      console.log(index,this.value); //path是要的路径
+      store.commit('isChoosen',{majorName:index,majorType:this.value})
       this.choosenName=index
-      
-      
-      
+      console.log(store.state.majorNow.name);
       
     }
   }
@@ -265,8 +319,11 @@ export default {
 </script>
 
 <style>
-#choosenName{
+#choosenName {
   margin-top: 20px;
   font-size: 1.4rem;
+}
+tongji{
+  width: 50%;
 }
 </style>

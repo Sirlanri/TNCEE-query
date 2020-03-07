@@ -25,7 +25,12 @@ const routes = [
             path:'tongji',
             name:"tongji",
             component:()=>import('@/components/tongji.vue')
-          }
+          },
+          {
+            path:'xingbie',
+            name:"xingbie",
+            component:()=>import('@/components/xingbie.vue')
+          },
         ]
       },
     ]

@@ -8,7 +8,7 @@ export default new Vuex.Store({
     backAddress:'http://localhost:8090/',
 
     majorNow:{  //当前选中的专业
-      name:'',
+      name:'',type:'',
       //三届的平均 最低分
       scoreave:{
         ave17:0,  
@@ -26,8 +26,13 @@ export default new Vuex.Store({
     },
     majors:[
       //存储专业的列表，用户从服务器每获取一个专业，就存入
-      {name:'工业设计',scoreave:{ave17:500,ave18:510,ave19:513},scoremin:{min17:492,min18:498,min19:501}},
-      {name:'自动化',scoreave:{ave17:488,ave18:499,ave19:500},scoremin:{min17:457,min18:443,min19:420}}
+      {name:'工业设计',type:'理工',scoreave:{ave17:500,ave18:510,ave19:513},scoremin:{min17:492,min18:498,min19:501},sex:0.7},
+      {name:'自动化'  ,type:'理工',scoreave:{ave17:488,ave18:499,ave19:500},scoremin:{min17:457,min18:443,min19:420},sex:0.4},
+      {name:'机械设计制造及其自动化',type:'理工',scoreave:{ave17:498,ave18:488,ave19:505},scoremin:{min17:445,min18:225,min19:354},sex:0.7},
+      {name:'材料成型及控制工程',type:'理工',scoreave:{ave17:488,ave18:499,ave19:500},scoremin:{min17:457,min18:443,min19:420},sex:0.5},
+      {name:'机器人工程',type:'理工',scoreave:{ave17:458,ave18:449,ave19:520},scoremin:{min17:470,min18:482,min19:529},sex:0.1},
+      {name:'工业设计(校企合作，山东新视觉数码有限公司)',type:'理工',scoreave:{ave17:484,ave18:489,ave19:570},scoremin:{min17:457,min18:483,min19:420},sex:0.4},
+      {name:'机械设计制造及其自动化(中外合作办学)',type:'理工',scoreave:{ave17:471,ave18:499,ave19:531},scoremin:{min17:457,min18:443,min19:428},sex:0.8},
     ]
   },
   mutations: {
@@ -36,9 +41,9 @@ export default new Vuex.Store({
     },
 
     //每选中一个专业，判断是否保存过，如果true，将majorNow更改，不再向服务器请求
-    isChoosen(state,majorName){
+    isChoosen(state,stuck){
       for(var i=0;i<state.majors.length;i++){
-        if (state.majors[i].name == majorName){
+        if (state.majors[i].name == stuck.majorName && stuck.majorType == state.majors[i].type ){
           state.majorNow = state.majors[i]
           console.log("匹配已有数据成功");
           return true
