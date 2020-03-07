@@ -13,6 +13,17 @@ export default{
   data(){
     return{
       charts:'',
+      
+    }
+  },
+  computed:{
+    majorNow:function(){
+      return store.state.majorNow
+    }
+  },
+  watch:{
+    majorNow:function(){
+      this.drawLine("first")
     }
   },
   methods:{
@@ -48,12 +59,12 @@ export default{
           name:"最低分",
           type:'line',
           stack:'总量',
-          data:this.convert(store.state.majorNow.scoremin)
+          data:this.convert(this.majorNow.scoremin)
         },
         {
           name:"平均分",
           type:'line',
-          data:this.convert(store.state.majorNow.scoreave)
+          data:this.convert(this.majorNow.scoreave)
         }]
       })
     },
@@ -68,11 +79,7 @@ export default{
     }
   },
 
-  mounted(){
-    this.$nextTick(function(){
-      this.drawLine('first')
-    })
-  }
+  
 }
     
 

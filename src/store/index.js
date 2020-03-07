@@ -26,7 +26,8 @@ export default new Vuex.Store({
     },
     majors:[
       //存储专业的列表，用户从服务器每获取一个专业，就存入
-      {name:'工业设计',scoreave:{ave17:500,ave18:510,ave19:513},scoremin:{min17:492,min18:498,min19:501}}
+      {name:'工业设计',scoreave:{ave17:500,ave18:510,ave19:513},scoremin:{min17:492,min18:498,min19:501}},
+      {name:'自动化',scoreave:{ave17:488,ave18:499,ave19:500},scoremin:{min17:457,min18:443,min19:420}}
     ]
   },
   mutations: {
@@ -46,7 +47,7 @@ export default new Vuex.Store({
       return false
       
     },
-    
+
     getMajor(state,majorName){
       axios.post(state.backAddress+'yuming',majorName)
         .then(res=>{
