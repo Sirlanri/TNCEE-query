@@ -4,7 +4,7 @@
         <el-row :gutter="20">
 
           <el-col :span="5">
-            <el-select v-model="province" filterable placeholder="省份">
+            <el-select v-model="province" filterable placeholder="份">
               <el-option v-for="(item,index) in provinces"
               :key="index" :label="item" :value="item">
               </el-option>
@@ -21,7 +21,7 @@
             <el-input v-model="score" placeholder="高考分数"></el-input>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="rank" placeholder="省排名(可选)"></el-input>
+            <el-input v-model="rank" placeholder="排名(可选)"></el-input>
           </el-col>
           <el-col :span='4'>
             <el-button type="primary" @click="lookfor">查询</el-button>
@@ -79,7 +79,7 @@ export default {
       rank:'',
       type:'理工',
       provinces:[
-        "山东省","河北省","山西省","辽宁省","吉林省","黑龙江省","江苏省","浙江省","安徽省","福建省","江西省","河南省","湖北省","湖南省","广东省","海南省","四川省","贵州省","云南省","陕西省","甘肃省","青海省","台湾省","北京市","天津市","上海市","重庆市","内蒙古自治区","广西壮族自治区","宁夏回族自治区","新疆维吾尔自治区","西藏自治区","香港特别行政区","澳门特别行政区"
+        "山东","河北","山西","辽宁","吉林","黑龙江","江苏","浙江","安徽","福建","江西","河南","湖北","湖南","广东","海南","四川","贵州","云南","陕西","甘肃","青海","台湾","北京市","天津市","上海市","重庆市","内蒙古自治区","广西壮族自治区","宁夏回族自治区","新疆维吾尔自治区","西藏自治区","香港特别行政区","澳门特别行政区"
       ],
       types:[
         '理工','文史','艺文','艺理','200'
@@ -124,13 +124,10 @@ export default {
     },
     handleClick(item){
       console.log(item.profession);
-      if (store.commit('isChoosen',{majorName:item.profession,majorType:this.type,province:this.province})) {
+      store.commit('isChoosen',{majorName:item.profession,majorType:this.type,province:this.province})
         console.log("返回true");
         
         this.$router.push({"name":'Browse'})
-      }else{
-        console.log(store.commit('isChoosen',{majorName:item,majorType:this.type,province:this.province}))
-      }
       
       
 

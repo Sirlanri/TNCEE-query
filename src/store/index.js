@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    backAddress:'http://localhost:8090/',
+    backAddress:'http://localhost:8090',
+    existFlag:true,
 
     majorNow:{  //当前选中的专业
       name:'',type:'',province:'',
@@ -25,13 +27,67 @@ export default new Vuex.Store({
         min18:0, 
         min19:0, 
       },
+      //每一分的详细信息
+      data19:{},
+      data18:{},
+      data17:{},
       
       sex:0.01, //男女比
 
     },
     majors:[
       //存储专业的列表，用户从服务器每获取一个专业，就存入
-      {name:'工业设计',province:'山东',type:'理工',scoreave:{ave17:500,ave18:510,ave19:513},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:492,min18:498,min19:501},sex:0.7},
+      {name:'工业设计',province:'山东',type:'理工',scoreave:{ave17:500,ave18:510,ave19:513},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:492,min18:498,min19:501},sex:0.7,data19:{"546": 0.034482758620689655,
+      "534": 0.13793103448275862,
+      "535": 0.3103448275862069,
+      "536": 0.06896551724137931,
+      "537": 0.10344827586206896,
+      "538": 0.06896551724137931,
+      "539": 0.06896551724137931,
+      "555": 0.034482758620689655,
+      "541": 0.13793103448275862,
+      "543": 0.034482758620689655},data18:{"516": 0.125,
+      "517": 0.075,
+      "518": 0.0625,
+      "519": 0.1125,
+      "520": 0.0875,
+      "521": 0.05,
+      "522": 0.025,
+      "523": 0.05,
+      "524": 0.0375,
+      "525": 0.0625,
+      "557": 0.0125,
+      "526": 0.0375,
+      "527": 0.025,
+      "528": 0.0125,
+      "560": 0.0125,
+      "529": 0.025,
+      "530": 0.0125,
+      "531": 0.025,
+      "532": 0.05,
+      "533": 0.0125,
+      "535": 0.0375,
+      "536": 0.0125,
+      "538": 0.0375},data17:{"512": 0.044444444444444446,
+      "513": 0.044444444444444446,
+      "514": 0.06666666666666667,
+      "515": 0.1,
+      "516": 0.03333333333333333,
+      "518": 0.044444444444444446,
+      "519": 0.011111111111111112,
+      "520": 0.011111111111111112,
+      "521": 0.011111111111111112,
+      "522": 0.011111111111111112,
+      "528": 0.011111111111111112,
+      "529": 0.011111111111111112,
+      "536": 0.011111111111111112,
+      "505": 0.1,
+      "506": 0.07777777777777778,
+      "507": 0.1111111111111111,
+      "508": 0.1,
+      "509": 0.1,
+      "510": 0.06666666666666667,
+      "511": 0.03333333333333333}},
       {name:'自动化',province:'山东'  ,type:'理工',scoreave:{ave17:488,ave18:499,ave19:500,},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:457,min18:443,min19:420},sex:0.4},
       {name:'机械设计制造及其自动化',province:'山东',type:'理工',scoreave:{ave17:498,ave18:488,ave19:505,},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:445,min18:225,min19:354},sex:0.7},
       {name:'材料成型及控制工程',province:'山东',type:'理工',scoreave:{ave17:488,ave18:499,ave19:500,},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:457,min18:443,min19:420},sex:0.5},
@@ -40,35 +96,78 @@ export default new Vuex.Store({
       {name:'机械设计制造及其自动化(中外合作办学)',province:'山东',type:'理工',scoreave:{ave17:471,ave18:499,ave19:531,},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:457,min18:443,min19:428},sex:0.8},
     ]
   },
-  mutations: {
-    appendMajor(majors,newMajor){
-      majors.push(newMajor)
-    },
-
-    //每选中一个专业，判断是否保存过，如果true，将majorNow更改，不再向服务器请求
-    isChoosen(state,stuck){
+  getters:{
+    search:(state)=>majorPkg=>{
+      console.log("正在单步匹配已有数据");
       for(var i=0;i<state.majors.length;i++){
-        if (state.majors[i].name == stuck.majorName && stuck.majorType == state.majors[i].type && state.majors[i].province == stuck.province ){
-          state.majorNow = state.majors[i]
+        if (state.majors[i].name == majorPkg.profession && majorPkg.type == state.majors[i].type && state.majors[i].province == majorPkg.province ){
           console.log("匹配已有数据成功");
-          return true
+          return  i+1
         }
       }
-      return false
-      
+      console.log("本地没有此数据");
+      return 0
+    }
+  },
+  mutations: {
+    firstchange(state,majorPkg){
+      state.majorNow.name=majorPkg.profession;
+      state.majorNow.type=majorPkg.type;
+      state.majorNow.province=majorPkg.province;
+    },
+    appendMajor(store){
+      //将当前majorNow加入列表
+      store.majors.push(store.majorNow)
     },
 
-    getMajor(state,majorName){
-      axios.post(state.backAddress+'yuming',majorName)
-        .then(res=>{
-          console.log(res)
-        })
+    writein(state,receive){
+      //最低分
+      state.majorNow.scoremin.min19=receive.year2019.minGrade
+      state.majorNow.scoremin.min18=receive.year2018.minGrade
+      state.majorNow.scoremin.min17=receive.year2017.minGrade
+      //平均分
+
+      //平均名次
+      state.majorNow.rankmin.rank17=receive.year2017.minRank
+      state.majorNow.rankmin.rank18=receive.year2018.minRank
+      state.majorNow.rankmin.rank19=receive.year2019.minRank
+      //一分详情
+      state.majorNow.data17=receive.year2017.data
+      state.majorNow.data18=receive.year2018.data
+      state.majorNow.data19=receive.year2019.data
+
     },
+    
 
 
 
   },
   actions: {
+
+    //每选中一个专业，判断是否保存过，如果true，将majorNow更改，不再向服务器请求
+    isChoosen({majorPkg}){
+      console.log("异步请求正在处理");
+      majorPkg('search')
+
+      if (this.existFlag) {
+        axios.post("http://localhost:8090/subjectQuery",majorPkg)
+        .then(res=>{
+          console.log("从后端接收到单个专业的数据",res.data.year2019)
+          if (res.status==500) {
+            console.log("注意，找不到这个专业");
+            return
+          }
+          this.commit('writein',res.data)
+          this.commit('appendMajor')
+        })
+        .catch(error => {
+          console.log(error)
+          
+        })
+      }
+      
+
+    },
     
   },
   modules: {
