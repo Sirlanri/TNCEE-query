@@ -41,15 +41,15 @@ export default {
 
     tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
+        formatter: '{a} <br/>{b} :  ({d}%)'
     },
 
     visualMap: {
         show: false,
-        min: 0,
+        min: 0.5,
         max: 1,
         inRange: {
-            colorLightness: [0.2, 0.7]
+            colorLightness: [0.5, 0.9]
         }
     },
     series: [

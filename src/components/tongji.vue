@@ -34,7 +34,7 @@ export default {
           trigger:'axis'
         },
         legend:{
-          data:['最低分','平均分']
+          data:['最低分','平均分','平均名次']
         },
 
         grid:{
@@ -45,7 +45,7 @@ export default {
         },
         toolbox:{
           feature:{
-            saveImage:{}
+            saveImage:{},
           }
         },
         
@@ -54,23 +54,38 @@ export default {
           boundaryGap:false,
           data: ["17级","18级","19级"]
         },
-        yAxis:{
+        yAxis:[{
           type:'value',
           min:'dataMin',
           max:'dataMax',
         },
+        {
+          type:'value',
+          min:'dataMin',
+          max:'dataMax',
+
+          axisLabel:{
+            formatter:'排名 {value}'
+          }
+        }
+        ],
         series:[
           {
-          name:"平均分",
-          type:'line',
-          data:this.convert(this.majorNow.scoreave)
+            name:"平均分",
+            type:'line',
+            data:this.convert(this.majorNow.scoreave)
           },
           {
-          name:"最低分",
-          type:'line',
-          stack:'总量',
-          data:this.convert(this.majorNow.scoremin)
-        },
+            name:"最低分",
+            type:'line',
+            data:this.convert(this.majorNow.scoremin)
+          },
+          {
+            name:'平均名次',
+            type:'line',
+            yAxisIndex: 1,
+            data:this.convert(this.majorNow.rankmin)
+          }
         ]
       })
     },

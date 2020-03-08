@@ -230,7 +230,7 @@
           <el-row :gutter="15">
 
             <el-col :span="6">
-              <el-select v-model="location" placeholder="选择你的地区">
+              <el-select v-model="location" filterable placeholder="选择你的地区">
               <el-option
                 v-for="(province,index) in provinces"
                 :key="index"
@@ -251,11 +251,12 @@
             </el-select>
             </el-col>
 
-            <el-col :span="6">
+            <el-col :span="12">
               <span id="choosenName">{{choosenName}}</span>
             </el-col>
 
           </el-row>
+          <div class="jiange"></div>
           <el-row :gutter="20">
             <el-col :span="12">
               <tongji></tongji>
@@ -323,7 +324,8 @@ export default {
   margin-top: 20px;
   font-size: 1.4rem;
 }
-tongji{
-  width: 50%;
+
+.jiange{
+  height: 3rem;
 }
 </style>
