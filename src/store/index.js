@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     backAddress:'http://localhost:8090',
-    existFlag:true,
 
+    datax:[],
     majorNow:{  //当前选中的专业
       name:'',type:'',province:'',
       //三届的平均 最低分
@@ -109,9 +109,7 @@ export default new Vuex.Store({
     },
     getX:(state)=>{
       var maxormin=[];
-      for (var key in state.majorNow.data17){
-        maxormin.push(key);
-      }
+      
       var min17 = Math.min.apply(Object.keys(state.majorNow.data17))
       var max17 = Math.max.apply(Object.keys(state.majorNow.data17))
       var min18 = Math.min.apply(Object.keys(state.majorNow.data18))
@@ -125,7 +123,7 @@ export default new Vuex.Store({
       }
       return maxormin
     },
-    get17:(state)=>key=>{      
+    get17:(state)=>key=>{
       return state.majorNow.data17[key]
     },
     get18:(state)=>key=>{

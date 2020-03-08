@@ -53,6 +53,30 @@ export default {
   methods:{
     drawLine(classname){
       this.charts = echarts.init(document.getElementsByClassName(classname)[0])
+      var data17=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get17(key))
+        }
+        return after
+      },
+      var xdata=function(){
+        return store.getters.getX
+      },
+      var data18=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get18(key))
+        }
+        return after
+      },
+      var data19=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get19(key))
+        }
+        return after
+      },
       var labelOption = {
         rich: {
             name: {
@@ -60,6 +84,7 @@ export default {
           }
         }
       };
+      
       this.charts.setOption({
         color: ['#003366', '#006699', '#4cabce', '#e5323e'],
           tooltip: {
@@ -102,37 +127,19 @@ export default {
                   type: 'bar',
                   barGap: 0,
                   label: labelOption,
-                  data: function(){
-                    var after =[]
-                    for (var key in this.xdata) {
-                      after.append(store.getters.get17(key))
-                    }
-                    return after
-                  }
+                  data: store.getters.get17
               },
               {
                   name: '18级',
                   type: 'bar',
                   label: labelOption,
-                  data: function(){
-                    var after =[]
-                    for (var key in this.xdata) {
-                      after.append(store.getters.get18(key))
-                    }
-                    return after
-                  }
+                  data: store.getters.get18
               },
               {
                   name: '19级',
                   type: 'bar',
                   label: labelOption,
-                  data: function(){
-                    var after =[]
-                    for (var key in this.xdata) {
-                      after.append(store.getters.get19(key))
-                    }
-                    return after
-                  }
+                  data: store.getters.get19
               },
               
           ]
