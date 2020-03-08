@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios';
 
 Vue.use(Vuex)
 
@@ -115,10 +114,6 @@ export default new Vuex.Store({
       state.majorNow.type=majorPkg.type;
       state.majorNow.province=majorPkg.province;
     },
-    appendMajor(store){
-      //将当前majorNow加入列表
-      store.majors.push(store.majorNow)
-    },
 
     writein(state,receive){
       //最低分
@@ -143,32 +138,7 @@ export default new Vuex.Store({
 
   },
   actions: {
-
-    //每选中一个专业，判断是否保存过，如果true，将majorNow更改，不再向服务器请求
-    isChoosen({majorPkg}){
-      console.log("异步请求正在处理");
-      majorPkg('search')
-
-      if (this.existFlag) {
-        axios.post("http://localhost:8090/subjectQuery",majorPkg)
-        .then(res=>{
-          console.log("从后端接收到单个专业的数据",res.data.year2019)
-          if (res.status==500) {
-            console.log("注意，找不到这个专业");
-            return
-          }
-          this.commit('writein',res.data)
-          this.commit('appendMajor')
-        })
-        .catch(error => {
-          console.log(error)
-          
-        })
-      }
-      
-
-    },
-    
+ 
   },
   modules: {
   }

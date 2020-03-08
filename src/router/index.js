@@ -31,6 +31,11 @@ const routes = [
             name:"xingbie",
             component:()=>import('@/components/xingbie.vue')
           },
+          {
+            path:'midu',
+            name:"midu",
+            component:()=>import('@/components/midu.vue')
+          },
         ]
       },
     ]

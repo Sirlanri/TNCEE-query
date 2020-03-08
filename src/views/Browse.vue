@@ -228,33 +228,31 @@
 
         <el-col :span="18">
           <el-row :gutter="15">
-
             <el-col :span="6">
               <el-select v-model="location" filterable placeholder="选择你的地区">
-              <el-option
-                v-for="(province,index) in provinces"
-                :key="index"
-                :label="province"
-                :value="province"
-              ></el-option>
-            </el-select>
+                <el-option
+                  v-for="(province,index) in provinces"
+                  :key="index"
+                  :label="province"
+                  :value="province"
+                ></el-option>
+              </el-select>
             </el-col>
 
             <el-col :span="6">
               <el-select v-model="value" placeholder="选择科目类别">
-              <el-option
-                v-for="item in opentions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+                <el-option
+                  v-for="item in opentions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-col>
 
             <el-col :span="12">
               <span id="choosenName">{{choosenName}}</span>
             </el-col>
-
           </el-row>
           <div class="jiange"></div>
           <el-row :gutter="20">
@@ -265,65 +263,106 @@
               <xingbie></xingbie>
             </el-col>
           </el-row>
-          
-          
-
-          
         </el-col>
-        
       </el-row>
-      
-      
-      
     </keep-alive>
   </div>
 </template>
 
 <script>
-import tongji from '@/components/tongji.vue';
-import xingbie from '@/components/xingbie.vue';
-import store from '@/store/index'
+import tongji from "@/components/tongji.vue";
+import xingbie from "@/components/xingbie.vue";
+import store from "@/store/index";
+import axios from 'axios';
 
 export default {
-  components:{
-    tongji,xingbie
+  components: {
+    tongji,
+    xingbie
   },
   data() {
     return {
       activeNames: ["工业设计"],
       isheng: true,
-      choosenName:'',
-      value:'理工',
-      location:'山东',
-      opentions:[
-        {value:'理工',label:'理工'},
-        {value:'文史',label:'文史'},
-        {value:'艺文',label:'艺文'},
-        {value:'艺理',label:'艺理'},
-        {value:'200',label:'200'}
+      choosenName: "",
+      value: "理工",
+      location: "山东",
+      opentions: [
+        { value: "理工", label: "理工" },
+        { value: "文史", label: "文史" },
+        { value: "艺文", label: "艺文" },
+        { value: "艺理", label: "艺理" },
+        { value: "200", label: "200" }
       ],
-      provinces:[
-        "山东","河北","山西","辽宁","吉林","黑龙江","江苏","浙江","安徽","福建","江西","河南","湖北","湖南","广东","海南","四川","贵州","云南","陕西","甘肃","青海","台湾","北京市","天津市","上海市","重庆市","内蒙古自治区","广西壮族自治区","宁夏回族自治区","新疆维吾尔自治区","西藏自治区","香港特别行政区","澳门特别行政区"
+      provinces: [
+        "山东",
+        "河北",
+        "山西",
+        "辽宁",
+        "吉林",
+        "黑龙江",
+        "江苏",
+        "浙江",
+        "安徽",
+        "福建",
+        "江西",
+        "河南",
+        "湖北",
+        "湖南",
+        "广东",
+        "海南",
+        "四川",
+        "贵州",
+        "云南",
+        "陕西",
+        "甘肃",
+        "青海",
+        "台湾",
+        "北京市",
+        "天津市",
+        "上海市",
+        "重庆市",
+        "内蒙古自治区",
+        "广西壮族自治区",
+        "宁夏回族自治区",
+        "新疆维吾尔自治区",
+        "西藏自治区",
+        "香港特别行政区",
+        "澳门特别行政区"
       ]
     };
   },
   methods: {
     choose(index) {
-      this.choosenName=index
-      var majorPkg={
+      this.choosenName = index;
+      var majorPkg = {
         //统一格式
-        "type":this.value,
-        "profession":this.choosenName,
-        "province":this.location
+        type: this.value,
+        profession: this.choosenName,
+        province: this.location
       };
       var index2 = store.getters.search(majorPkg);
-      if (index) {
-        store.state.majorNow = store.state.majors[index2-1];
+      if (index2) {
+        store.state.majorNow = store.state.majors[index2 - 1];
+      } else {
+        //本地没有数据，向后端请求
+        axios
+          .post("http://localhost:8090/subjectQuery", majorPkg)
+          .then(res => {
+            console.log("从后端接收到单个专业的数据", res.data.year2019);
+            if (res.status == 500) {
+              console.log("注意，找不到这个专业");
+              return;
+            } else {
+              //把已有和后端返回的信息写入vuex
+              store.commit("firstchange", majorPkg);
+              store.commit("wirtein", res.data);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
-      
-      
-      
-      
     }
   }
 };
@@ -335,7 +374,7 @@ export default {
   font-size: 1.4rem;
 }
 
-.jiange{
+.jiange {
   height: 3rem;
 }
 </style>

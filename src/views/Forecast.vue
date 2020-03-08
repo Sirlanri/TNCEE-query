@@ -123,11 +123,35 @@ export default {
         })
     },
     handleClick(item){
-      console.log(item.profession);
-      store.commit('isChoosen',{majorName:item.profession,majorType:this.type,province:this.province})
-        console.log("返回true");
+      console.log(item.profession,'执行跳转操作');
+      var majorPkg={
+        profession:item.profession,type:this.type,province:this.province
+      }
+      var result=store.getters.search(majorPkg)
+      if (result) {
+        store.state.majorNow = store.state.majors[result - 1];
+      }else {
+        //本地没有数据，向后端请求
+        axios
+          .post("http://localhost:8090/subjectQuery", majorPkg)
+          .then(res => {
+            console.log("从后端接收到单个专业的数据", res.data.year2019);
+            if (res.status == 500) {
+              console.log("注意，找不到这个专业");
+              return;
+            } else {
+              //把已有和后端返回的信息写入vuex
+              store.commit("firstchange", majorPkg);
+              store.commit("wirtein", res.data);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
         
-        this.$router.push({"name":'Browse'})
+        
+      this.$router.push({"name":'Browse'})
       
       
 
