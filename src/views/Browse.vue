@@ -263,6 +263,11 @@
               <xingbie></xingbie>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="24">
+              <midu></midu>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </keep-alive>
@@ -272,13 +277,15 @@
 <script>
 import tongji from "@/components/tongji.vue";
 import xingbie from "@/components/xingbie.vue";
+import midu from "@/components/midu.vue";
 import store from "@/store/index";
 import axios from 'axios';
 
 export default {
   components: {
     tongji,
-    xingbie
+    xingbie,
+    midu
   },
   data() {
     return {
@@ -322,13 +329,13 @@ export default {
         "天津市",
         "上海市",
         "重庆市",
-        "内蒙古自治区",
-        "广西壮族自治区",
-        "宁夏回族自治区",
-        "新疆维吾尔自治区",
-        "西藏自治区",
-        "香港特别行政区",
-        "澳门特别行政区"
+        "内蒙古",
+        "广西",
+        "宁夏",
+        "新疆",
+        "西藏",
+        "香港",
+        "澳门"
       ]
     };
   },

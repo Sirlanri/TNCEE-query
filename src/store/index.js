@@ -106,7 +106,34 @@ export default new Vuex.Store({
       }
       console.log("本地没有此数据");
       return 0
-    }
+    },
+    getX:(state)=>{
+      var maxormin=[];
+      for (var key in state.majorNow.data17){
+        maxormin.push(key);
+      }
+      var min17 = Math.min.apply(Object.keys(state.majorNow.data17))
+      var max17 = Math.max.apply(Object.keys(state.majorNow.data17))
+      var min18 = Math.min.apply(Object.keys(state.majorNow.data18))
+      var max18 = Math.max.apply(Object.keys(state.majorNow.data18))
+      var min19 = Math.min.apply(Object.keys(state.majorNow.data19))
+      var max19 = Math.max.apply(Object.keys(state.majorNow.data19))
+      var finalmin = Math.min(min17,min18,min19)
+      var finalmax = Math.max(max17,max18,max19)
+      for (let index = finalmin; index <= finalmax; index++) {
+        maxormin.push(index)
+      }
+      return maxormin
+    },
+    get17:(state)=>key=>{      
+      return state.majorNow.data17[key]
+    },
+    get18:(state)=>key=>{
+      return state.majorNow.data18[key]
+    },
+    get19:(state)=>key=>{
+      return state.majorNow.data19[key]
+    },
   },
   mutations: {
     firstchange(state,majorPkg){
