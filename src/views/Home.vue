@@ -12,7 +12,6 @@
           </el-tab-pane>
         </el-tabs>
 
-        <router-view></router-view>
       </el-col>
     </el-row>
   </div>
@@ -30,7 +29,7 @@ export default {
   },
   data() {
     return {
-      activeName: "search"
+      activeName: "browse"
     };
   },
   methods: {
@@ -40,4 +39,8 @@ export default {
 </script>
 
 <style>
+html {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 </style>

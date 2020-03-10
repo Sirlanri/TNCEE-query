@@ -19,8 +19,24 @@ const routes = [
       {
         path:'Browse',
         name:'Browse',
-        component:()=>import('../views/Browse.vue')
-    
+        component:()=>import('../views/Browse.vue'),
+        children:[
+          {
+            path:'tongji',
+            name:"tongji",
+            component:()=>import('@/components/tongji.vue')
+          },
+          {
+            path:'xingbie',
+            name:"xingbie",
+            component:()=>import('@/components/xingbie.vue')
+          },
+          {
+            path:'midu',
+            name:"midu",
+            component:()=>import('@/components/midu.vue')
+          },
+        ]
       },
     ]
   },

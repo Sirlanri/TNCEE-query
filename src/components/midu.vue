@@ -1,0 +1,157 @@
+<template>
+  <div class="midu">
+      
+  </div>
+</template>
+
+<script>
+import echarts from 'echarts';
+import store from '@/store/index';
+
+export default {
+  name:'',
+  data(){
+    return{
+      charts:'',
+      xdata:function(){
+        return store.getters.getX
+      },
+      data17:function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get17(key))
+        }
+        return after
+      },
+      data18:function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get18(key))
+        }
+        return after
+      },
+      data19:function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get19(key))
+        }
+        return after
+      },
+    }
+  },
+  computed:{
+    majorNow:function(){
+      return store.state.majorNow
+    },
+    
+  },
+  watch:{
+    majorNow:function(){
+      this.drawLine("midu")
+    }
+  },
+  methods:{
+    drawLine(classname){
+      this.charts = echarts.init(document.getElementsByClassName(classname)[0])
+      var data17=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get17(key))
+        }
+        return after
+      },
+      var xdata=function(){
+        return store.getters.getX
+      },
+      var data18=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get18(key))
+        }
+        return after
+      },
+      var data19=function(){
+        var after =[]
+        for (var key in this.xdata) {
+          after.append(store.getters.get19(key))
+        }
+        return after
+      },
+      var labelOption = {
+        rich: {
+            name: {
+                textBorderColor: '#fff'
+          }
+        }
+      };
+      
+      this.charts.setOption({
+        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'line'
+              }
+          },
+          legend: {
+              data: ['17级', '18级', '19级']
+          },
+          toolbox: {
+              show: true,
+              orient: 'vertical',
+              left: 'right',
+              top: 'center',
+              feature: {
+                  mark: {show: true},
+                  dataView: {show: true, readOnly: false},
+                  magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                  restore: {show: true},
+                  saveAsImage: {show: true}
+              }
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  axisTick: {show: false},
+                  data: store.getters.getX
+              }
+          ],
+          yAxis: [
+              {
+                  type: 'value'
+              }
+          ],
+          series: [
+              {
+                  name: '17级',
+                  type: 'bar',
+                  barGap: 0,
+                  label: labelOption,
+                  data: store.getters.get17
+              },
+              {
+                  name: '18级',
+                  type: 'bar',
+                  label: labelOption,
+                  data: store.getters.get18
+              },
+              {
+                  name: '19级',
+                  type: 'bar',
+                  label: labelOption,
+                  data: store.getters.get19
+              },
+              
+          ]
+      })
+    }
+  }
+}
+</script>
+
+<style>
+.midu{
+    width: 100%;
+    height: 500px;
+}
+</style>
