@@ -114,7 +114,7 @@ export default {
       axios.post('http://localhost:8090/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
-            res.data.year19.forEach(element => {
+            res.data.year2019.forEach(element => {
               this.suitMajors.push(element)
               console.log('接收到专业名称：',element.profession);
             });
