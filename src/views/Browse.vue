@@ -266,8 +266,10 @@
           <el-row>
             <el-col :span="24">
               <midu></midu>
+              <chatrobot></chatrobot>
             </el-col>
           </el-row>
+          
         </el-col>
       </el-row>
     </keep-alive>
@@ -278,6 +280,7 @@
 import tongji from "@/components/tongji.vue";
 import xingbie from "@/components/xingbie.vue";
 import midu from "@/components/midu.vue";
+import chatrobot from "@/components/chatrobot.vue";
 import store from "@/store/index";
 import axios from 'axios';
 
@@ -285,7 +288,8 @@ export default {
   components: {
     tongji,
     xingbie,
-    midu
+    midu,
+    chatrobot,
   },
   data() {
     return {

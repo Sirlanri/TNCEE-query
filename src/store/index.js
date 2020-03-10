@@ -121,6 +121,7 @@ export default new Vuex.Store({
       for (let index = finalmin; index <= finalmax; index++) {
         maxormin.push(index)
       }
+      console.log("X轴数据：",maxormin);
       return maxormin
     },
     get17:(state)=>key=>{

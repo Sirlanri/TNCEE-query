@@ -13,7 +13,14 @@ export default {
   data(){
     return{
       charts:'',
-      xdata:function(){
+      
+    }
+  },
+  computed:{
+    majorNow:function(){
+      return store.state.majorNow
+    },
+    xdata:function(){
         return store.getters.getX
       },
       data17:function(){
@@ -21,6 +28,7 @@ export default {
         for (var key in this.xdata) {
           after.append(store.getters.get17(key))
         }
+        console.log("Y17数据",after);
         return after
       },
       data18:function(){
@@ -28,6 +36,7 @@ export default {
         for (var key in this.xdata) {
           after.append(store.getters.get18(key))
         }
+        console.log("Y18数据",after);
         return after
       },
       data19:function(){
@@ -35,48 +44,45 @@ export default {
         for (var key in this.xdata) {
           after.append(store.getters.get19(key))
         }
+        console.log("Y19数据",after);
         return after
       },
-    }
-  },
-  computed:{
-    majorNow:function(){
-      return store.state.majorNow
-    },
     
   },
   watch:{
     majorNow:function(){
       this.drawLine("midu")
+      this.charts.setOption({
+        
+        series:[
+          {
+            name: '17级',
+            type: 'bar',
+            barGap: 0,
+            //label: labelOption,
+            data: this.data17
+          },
+          {
+            name: '18级',
+            type: 'bar',
+            //label: labelOption,
+            data: this.data18
+          },
+          {
+            name: '19级',
+            type: 'bar',
+            //label: labelOption,
+            data: this.data19
+          }
+          
+        ]
+      })
     }
   },
   methods:{
     drawLine(classname){
       this.charts = echarts.init(document.getElementsByClassName(classname)[0])
-      var data17=function(){
-        var after =[]
-        for (var key in this.xdata) {
-          after.append(store.getters.get17(key))
-        }
-        return after
-      },
-      var xdata=function(){
-        return store.getters.getX
-      },
-      var data18=function(){
-        var after =[]
-        for (var key in this.xdata) {
-          after.append(store.getters.get18(key))
-        }
-        return after
-      },
-      var data19=function(){
-        var after =[]
-        for (var key in this.xdata) {
-          after.append(store.getters.get19(key))
-        }
-        return after
-      },
+      
       var labelOption = {
         rich: {
             name: {
@@ -127,19 +133,19 @@ export default {
                   type: 'bar',
                   barGap: 0,
                   label: labelOption,
-                  data: store.getters.get17
+                  data: []
               },
               {
                   name: '18级',
                   type: 'bar',
                   label: labelOption,
-                  data: store.getters.get18
+                  data: []
               },
               {
                   name: '19级',
                   type: 'bar',
                   label: labelOption,
-                  data: store.getters.get19
+                  data: []
               },
               
           ]
