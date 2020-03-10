@@ -111,14 +111,21 @@ export default {
         "rank":this.rank,
         "type":this.type
       }
+      
       axios.post('http://localhost:8090/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
+            this.suitMajors=[]
             res.data.year2019.forEach(element => {
               this.suitMajors.push(element)
               console.log('接收到专业名称：',element.profession);
             });
-
+          }
+          else{
+            this.$notify.info({
+            title: '提示',
+            message: '找不到合适的专业哟亲~'
+          });
           }
         })
     },

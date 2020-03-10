@@ -23,6 +23,7 @@ export default {
   },
   watch:{
     majorNow:function(){
+      console.log("统计，监听到majorNow改变");
       this.drawLine("first")
     }
   },
@@ -94,7 +95,6 @@ export default {
       var after = [];
       for (var score in scores) {
         after.push(scores[score])
-        console.log(scores[score]);
       }
       return after
     }

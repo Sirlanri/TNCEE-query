@@ -63,32 +63,8 @@ export default {
   },
   watch:{
     majorNow:function(){
+      console.log("密度，监听到majorNow改变");
       this.drawLine("midu")
-      this.charts.setOption({
-        
-        series:[
-          {
-            name: '17级',
-            type: 'bar',
-            barGap: 0,
-            //label: labelOption,
-            data: this.data17
-          },
-          {
-            name: '18级',
-            type: 'bar',
-            //label: labelOption,
-            data: this.data18
-          },
-          {
-            name: '19级',
-            type: 'bar',
-            //label: labelOption,
-            data: this.data19
-          }
-          
-        ]
-      })
     }
   },
   methods:{
@@ -153,19 +129,19 @@ textStyle: {
                   type: 'line',
                   barGap: 0,
                   label: labelOption,
-                  data: []
+                  data: this.data17
               },
               {
                   name: '18级',
                   type: 'line',
                   label: labelOption,
-                  data: []
+                  data: this.data18
               },
               {
                   name: '19级',
                   type: 'line',
                   label: labelOption,
-                  data: []
+                  data: this.data19
               },
               
           ]

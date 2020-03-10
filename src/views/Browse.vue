@@ -356,20 +356,23 @@ export default {
       };
       var index2 = store.getters.search(majorPkg);
       if (index2) {
-        store.state.majorNow = store.state.majors[index2 - 1];
+        //获得在列表中的位置，赋值给majorNow
+        store.state.majorNow=store.state.majors[index2-1]
       } else {
         //本地没有数据，向后端请求
         axios
           .post("http://localhost:8090/subjectQuery", majorPkg)
           .then(res => {
-            console.log("从后端接收到单个专业的数据", res.data.year2019);
-            if (res.status == 500) {
-              console.log("注意，找不到这个专业");
+            console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
+            if (res.notfound === "null") {
+              console.log("后端数据返回：注意，找不到这个专业");
               return;
             } else {
-              //把已有和后端返回的信息写入vuex
-              store.commit("firstchange", majorPkg);
-              store.commit("wirtein", res.data);
+              //把已有和后端返回的信息写入majors列表
+              store.commit("writein",{"majorPkg": majorPkg,"receive":res.data});
+              //使majorNow的指针指向列表最后一个
+              store.commit("changeNow")
+              
             }
           })
           .catch(error => {

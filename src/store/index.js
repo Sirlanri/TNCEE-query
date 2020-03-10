@@ -34,6 +34,32 @@ export default new Vuex.Store({
       sex:0.01, //男女比
 
     },
+    majorTemp:{  //当前选中的专业
+      name:'',type:'',province:'',
+      //三届的平均 最低分
+      scoreave:{
+        ave17:0,  
+        ave18:0, 
+        ave19:0,
+      },
+      rankmin:{
+        rank17:0, 
+        rank18:0,
+        rank19:0,
+      },
+      scoremin:{
+        min17:0,  
+        min18:0, 
+        min19:0, 
+      },
+      //每一分的详细信息
+      data19:{},
+      data18:{},
+      data17:{},
+      
+      sex:0.01, //男女比
+
+    },
     majors:[
       //存储专业的列表，用户从服务器每获取一个专业，就存入
       {name:'工业设计',province:'山东',type:'理工',scoreave:{ave17:500,ave18:510,ave19:513},rankmin:{rank17:10000,rank18:12000,rank19:10400},scoremin:{min17:492,min18:498,min19:501},sex:0.7,data19:{"546": 0.034482758620689655,
@@ -135,29 +161,40 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    firstchange(state,majorPkg){
-      state.majorNow.name=majorPkg.profession;
-      state.majorNow.type=majorPkg.type;
-      state.majorNow.province=majorPkg.province;
-    },
+    
 
-    writein(state,receive){
+    writein(state,all){
+
+      var major1 = new Object();
+      major1.name=all.majorPkg.profession;
+      major1.type=all.majorPkg.type;
+      major1.province=all.majorPkg.province;
+      major1.scoremin={};
+      major1.rankmin={};
+      major1.scoreave={};
       //最低分
-      state.majorNow.scoremin.min19=receive.year2019.minGrade
-      state.majorNow.scoremin.min18=receive.year2018.minGrade
-      state.majorNow.scoremin.min17=receive.year2017.minGrade
+      major1.scoremin.min19=all.receive.year2019.minGrade
+      major1.scoremin.min18=all.receive.year2018.minGrade
+      major1.scoremin.min17=all.receive.year2017.minGrade
       //平均分
-
-      //平均名次
-      state.majorNow.rankmin.rank17=receive.year2017.minRank
-      state.majorNow.rankmin.rank18=receive.year2018.minRank
-      state.majorNow.rankmin.rank19=receive.year2019.minRank
+      major1.scoreave.ave17=all.receive.year2017.average
+      major1.scoreave.ave18=all.receive.year2018.average
+      major1.scoreave.ave19=all.receive.year2019.average
+      //平均名次all.
+      major1.rankmin.rank17=all.receive.year2017.minRank
+      major1.rankmin.rank18=all.receive.year2018.minRank
+      major1.rankmin.rank19=all.receive.year2019.minRank
       //一分详情
-      state.majorNow.data17=receive.year2017.data
-      state.majorNow.data18=receive.year2018.data
-      state.majorNow.data19=receive.year2019.data
-
+      major1.data17=all.receive.year2017.data
+      major1.data18=all.receive.year2018.data
+      major1.data19=all.receive.year2019.data
+      state.majors.push(major1)
+      console.log("majors列表已更新");
     },
+    changeNow(state){
+      state.majorNow=state.majors[state.majors.length-1]
+      console.log("majorNow赋值完毕",state.majorNow.name);
+    }
     
 
 
