@@ -265,7 +265,9 @@
           </el-row>
           <el-row>
             <el-col :span="24">
+              <div class="jiange"></div>
               <midu></midu>
+              <div class="jiange"></div>
               <chatrobot></chatrobot>
             </el-col>
           </el-row>
@@ -386,6 +388,6 @@ export default {
 }
 
 .jiange {
-  height: 3rem;
+  height: 2rem;
 }
 </style>

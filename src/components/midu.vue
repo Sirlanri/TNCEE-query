@@ -26,7 +26,11 @@ export default {
       data17:function(){
         var after =[]
         for (var key in this.xdata) {
-          after.append(store.getters.get17(key))
+          var value=store.getters.get17(this.xdata[key])
+          if (typeof(value)=="undefined"){
+            value=0
+          }
+          after.push(value)
         }
         console.log("Y17数据",after);
         return after
@@ -34,7 +38,11 @@ export default {
       data18:function(){
         var after =[]
         for (var key in this.xdata) {
-          after.append(store.getters.get18(key))
+          var value=store.getters.get18(this.xdata[key])
+          if (typeof(value)=="undefined"){
+            value=0
+          }
+          after.push(value)
         }
         console.log("Y18数据",after);
         return after
@@ -42,7 +50,11 @@ export default {
       data19:function(){
         var after =[]
         for (var key in this.xdata) {
-          after.append(store.getters.get19(key))
+          var value=store.getters.get19(this.xdata[key])
+          if (typeof(value)=="undefined"){
+            value=0
+          }
+          after.push(value)
         }
         console.log("Y19数据",after);
         return after
@@ -92,7 +104,15 @@ export default {
       };
       
       this.charts.setOption({
-        color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+        title:{
+          text:'分数密度',
+          subtitle:'每一分的人数占比',
+
+textStyle: {
+            color: '#000'
+        }
+        },
+        color: ['#0061c2', '#cf0091', '#dd7703', '#e5323e'],
           tooltip: {
               trigger: 'axis',
               axisPointer: {
@@ -130,20 +150,20 @@ export default {
           series: [
               {
                   name: '17级',
-                  type: 'bar',
+                  type: 'line',
                   barGap: 0,
                   label: labelOption,
                   data: []
               },
               {
                   name: '18级',
-                  type: 'bar',
+                  type: 'line',
                   label: labelOption,
                   data: []
               },
               {
                   name: '19级',
-                  type: 'bar',
+                  type: 'line',
                   label: labelOption,
                   data: []
               },
@@ -159,5 +179,6 @@ export default {
 .midu{
     width: 100%;
     height: 500px;
+    color: #0061c2,#cf0091,#dd7703;
 }
 </style>
