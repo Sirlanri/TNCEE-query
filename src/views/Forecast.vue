@@ -4,7 +4,7 @@
         <el-row :gutter="20">
 
           <el-col :span="5">
-            <el-select v-model="province" filterable placeholder="份">
+            <el-select v-model="province" filterable>
               <el-option v-for="(item,index) in provinces"
               :key="index" :label="item" :value="item">
               </el-option>
@@ -74,6 +74,7 @@ export default {
   name:'forecast',
   data(){
     return{
+      loading:false,
       province:'山东',
       score:'' ,
       rank:'',
@@ -105,13 +106,14 @@ export default {
   },
   methods:{
     lookfor(){
+      
       var sendData={
         "score":this.score,
         "province":this.province,
         "rank":this.rank,
         "type":this.type
       }
-      
+      this.loading=true
       axios.post('http://localhost:8090/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
@@ -127,10 +129,11 @@ export default {
             message: '找不到合适的专业哟亲~'
           });
           }
-        })
+        });
+        this.loading=false
     },
     handleClick(item){
-      console.log(item.profession,'执行跳转操作');
+      console.log(item.profession,'准备-执行跳转操作');
       var majorPkg={
         profession:item.profession,type:this.type,province:this.province
       }
@@ -139,11 +142,16 @@ export default {
         store.state.majorNow = store.state.majors[result - 1];
       }else {
         //本地没有数据，向后端请求
+
         axios
           .post("http://localhost:8090/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据", res.data.year2019);
-            if (res.status == 500) {
+            if (res.data.year2019 == []) {
+              this.$notify.info({
+                title: '消息',
+                message: '没有合适的专业哦~'
+              });
               console.log("注意，找不到这个专业");
               return;
             } else {

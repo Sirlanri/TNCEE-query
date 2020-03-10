@@ -37,6 +37,7 @@ export default {
         legend:{
           data:['最低分','平均分','平均名次']
         },
+        color:["#0044d6","#ca00a9","#10c400"],
 
         grid:{
           left: '3%',
@@ -64,7 +65,7 @@ export default {
           type:'value',
           min:'dataMin',
           max:'dataMax',
-
+          inverse:true,
           axisLabel:{
             formatter:'排名 {value}'
           }
@@ -110,5 +111,6 @@ export default {
 .first{
   width: 100%;
   height: 400px;
+  color: #0044d6,#ca00a9,#10c400;
 }
 </style>

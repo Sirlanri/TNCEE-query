@@ -287,6 +287,7 @@ import store from "@/store/index";
 import axios from 'axios';
 
 export default {
+  name:'browse',
   components: {
     tongji,
     xingbie,
@@ -364,7 +365,11 @@ export default {
           .post("http://localhost:8090/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
-            if (res.notfound === "null") {
+            if (res.notfound == "fuck") {
+              this.$notify.info({
+              title: '消息',
+              message: '这是一条消息的提示消息'
+            });
               console.log("后端数据返回：注意，找不到这个专业");
               return;
             } else {
