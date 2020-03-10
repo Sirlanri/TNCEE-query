@@ -119,6 +119,9 @@ export default {
           if (res.status==200){
             this.suitMajors=[]
             res.data.year2019.forEach(element => {
+              if (element.minRank==0){
+                element.minRank="暂无数据"
+              }
               this.suitMajors.push(element)
               console.log('接收到专业名称：',element.profession);
             });

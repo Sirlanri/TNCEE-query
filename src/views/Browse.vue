@@ -365,7 +365,7 @@ export default {
           .post("http://localhost:8090/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
-            if (res.notfound == "fuck") {
+            if (res.fuck === null) {
               this.$notify.info({
               title: '消息',
               message: '这是一条消息的提示消息'
