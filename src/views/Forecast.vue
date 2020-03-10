@@ -48,14 +48,17 @@
         <el-table-column
           prop="minRank" label="平均名次" 
         ></el-table-column>
+          <!--
         <el-table-column
           label="操作"
           >
+          
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="primary" size="normal" plain>查看</el-button>
           </template>
+         
         </el-table-column>
-
+           -->
         </el-table>
         
         </keep-alive>
@@ -87,19 +90,6 @@ export default {
       ],
       suitMajors: [
         //每个元素有 profession minScore maxScore minRank average
-        {"profession":"计算机科学与技术",
-          "minScore":450,
-          "maxScore":506,
-          "minRank":90467,
-          "average":499,
-        },
-        {"profession":"工业设计",
-          "minScore":450,
-          "maxScore":506,
-          "minRank":90467,
-          "average":499,
-        },
-
       ],  
 
     }

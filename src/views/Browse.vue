@@ -255,7 +255,7 @@
             </el-col>
           </el-row>
           <div class="jiange"></div>
-          <el-row :gutter="20">
+          <el-row :gutter="20" v-loading="loading">
             <el-col :span="12">
               <tongji></tongji>
             </el-col>
@@ -296,6 +296,7 @@ export default {
   },
   data() {
     return {
+      loading:false,
       activeNames: ["工业设计"],
       isheng: true,
       choosenName: "",
@@ -348,6 +349,7 @@ export default {
   },
   methods: {
     choose(index) {
+      this.loading=true;
       this.choosenName = index;
       var majorPkg = {
         //统一格式
@@ -365,12 +367,12 @@ export default {
           .post("http://localhost:8090/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
-            if (res.fuck === null) {
+            if (res.data.fuck === null) {
               this.$notify.info({
-              title: '消息',
-              message: '这是一条消息的提示消息'
+              title: '找不到专业',
+              message: '可以试试更换文理科或省份哦'
             });
-              console.log("后端数据返回：注意，找不到这个专业");
+              console.log("后端数据返回-注意，找不到这个专业");
               return;
             } else {
               //把已有和后端返回的信息写入majors列表
@@ -384,6 +386,7 @@ export default {
             console.log(error);
           });
       }
+      this.loading=false
     }
   }
 };
