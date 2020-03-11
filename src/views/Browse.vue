@@ -358,7 +358,7 @@ export default {
         province: this.location
       };
       var index2 = store.getters.search(majorPkg);
-      if (index2) {
+      if (index2) { 
         //获得在列表中的位置，赋值给majorNow
         store.state.majorNow=store.state.majors[index2-1]
       } else {
