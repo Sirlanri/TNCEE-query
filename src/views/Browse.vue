@@ -363,8 +363,9 @@ export default {
         store.state.majorNow=store.state.majors[index2-1]
       } else {
         //本地没有数据，向后端请求
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         axios
-          .post("http://localhost:8090/subjectQuery", majorPkg)
+          .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
             if (res.data.fuck === null) {
