@@ -104,7 +104,7 @@ export default {
         "type":this.type
       }
       this.loading=true
-      axios.post('http://localhost:8090/scoreQuery',sendData)
+      axios.post('https://api.ri-co.cn/gaokaov1.0/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
             this.suitMajors=[]

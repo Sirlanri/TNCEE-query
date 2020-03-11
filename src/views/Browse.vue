@@ -363,7 +363,6 @@ export default {
         store.state.majorNow=store.state.majors[index2-1]
       } else {
         //本地没有数据，向后端请求
-        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         axios
           .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
           .then(res => {
