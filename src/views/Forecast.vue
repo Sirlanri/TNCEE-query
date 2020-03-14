@@ -4,7 +4,7 @@
         <el-row :gutter="20">
 
           <el-col :span="5">
-            <el-select v-model="province" filterable placeholder="份">
+            <el-select v-model="province" filterable>
               <el-option v-for="(item,index) in provinces"
               :key="index" :label="item" :value="item">
               </el-option>
@@ -48,14 +48,17 @@
         <el-table-column
           prop="minRank" label="平均名次" 
         ></el-table-column>
+          <!--
         <el-table-column
           label="操作"
           >
+          
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="primary" size="normal" plain>查看</el-button>
           </template>
+         
         </el-table-column>
-
+           -->
         </el-table>
         
         </keep-alive>
@@ -74,6 +77,7 @@ export default {
   name:'forecast',
   data(){
     return{
+      loading:false,
       province:'山东',
       score:'' ,
       rank:'',
@@ -86,44 +90,43 @@ export default {
       ],
       suitMajors: [
         //每个元素有 profession minScore maxScore minRank average
-        {"profession":"计算机科学与技术",
-          "minScore":450,
-          "maxScore":506,
-          "minRank":90467,
-          "average":499,
-        },
-        {"profession":"工业设计",
-          "minScore":450,
-          "maxScore":506,
-          "minRank":90467,
-          "average":499,
-        },
-
       ],  
 
     }
   },
   methods:{
     lookfor(){
+      
       var sendData={
         "score":this.score,
         "province":this.province,
         "rank":this.rank,
         "type":this.type
       }
-      axios.post('http://localhost:8090/scoreQuery',sendData)
+      this.loading=true
+      axios.post('https://api.ri-co.cn/gaokaov1.0/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
-            res.data.year19.forEach(element => {
+            this.suitMajors=[]
+            res.data.year2019.forEach(element => {
+              if (element.minRank==0){
+                element.minRank="暂无数据"
+              }
               this.suitMajors.push(element)
               console.log('接收到专业名称：',element.profession);
             });
-
           }
-        })
+          else{
+            this.$notify.info({
+            title: '提示',
+            message: '找不到合适的专业哟亲~'
+          });
+          }
+        });
+        this.loading=false
     },
     handleClick(item){
-      console.log(item.profession,'执行跳转操作');
+      console.log(item.profession,'准备-执行跳转操作');
       var majorPkg={
         profession:item.profession,type:this.type,province:this.province
       }
@@ -132,11 +135,16 @@ export default {
         store.state.majorNow = store.state.majors[result - 1];
       }else {
         //本地没有数据，向后端请求
+
         axios
-          .post("http://localhost:8090/subjectQuery", majorPkg)
+          .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据", res.data.year2019);
-            if (res.status == 500) {
+            if (res.data.year2019 == []) {
+              this.$notify.info({
+                title: '消息',
+                message: '没有合适的专业哦~'
+              });
               console.log("注意，找不到这个专业");
               return;
             } else {

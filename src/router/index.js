@@ -36,6 +36,11 @@ const routes = [
             name:"midu",
             component:()=>import('@/components/midu.vue')
           },
+          {
+            path:'chatrobot',
+            name:"chatrobot",
+            component:()=>import('@/components/chatrobot.vue')
+          },
         ]
       },
     ]

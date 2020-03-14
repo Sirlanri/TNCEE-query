@@ -23,6 +23,7 @@ export default {
   },
   watch:{
     majorNow:function(){
+      console.log("统计，监听到majorNow改变");
       this.drawLine("first")
     }
   },
@@ -34,8 +35,9 @@ export default {
           trigger:'axis'
         },
         legend:{
-          data:['最低分','平均分','平均名次']
+          data:['最低分','平均分','最低名次']
         },
+        color:["#0044d6","#ca00a9","#10c400"],
 
         grid:{
           left: '3%',
@@ -63,7 +65,7 @@ export default {
           type:'value',
           min:'dataMin',
           max:'dataMax',
-
+          inverse:true,
           axisLabel:{
             formatter:'排名 {value}'
           }
@@ -81,7 +83,7 @@ export default {
             data:this.convert(this.majorNow.scoremin)
           },
           {
-            name:'平均名次',
+            name:'最低名次',
             type:'line',
             yAxisIndex: 1,
             data:this.convert(this.majorNow.rankmin)
@@ -94,7 +96,6 @@ export default {
       var after = [];
       for (var score in scores) {
         after.push(scores[score])
-        console.log(scores[score]);
       }
       return after
     }
@@ -110,5 +111,6 @@ export default {
 .first{
   width: 100%;
   height: 400px;
+  color: #0044d6,#ca00a9,#10c400;
 }
 </style>

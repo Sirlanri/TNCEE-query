@@ -255,7 +255,7 @@
             </el-col>
           </el-row>
           <div class="jiange"></div>
-          <el-row :gutter="20">
+          <el-row :gutter="20" v-loading="loading">
             <el-col :span="12">
               <tongji></tongji>
             </el-col>
@@ -265,9 +265,13 @@
           </el-row>
           <el-row>
             <el-col :span="24">
+              <div class="jiange"></div>
               <midu></midu>
+              <div class="jiange"></div>
+              <chatrobot></chatrobot>
             </el-col>
           </el-row>
+          
         </el-col>
       </el-row>
     </keep-alive>
@@ -278,17 +282,21 @@
 import tongji from "@/components/tongji.vue";
 import xingbie from "@/components/xingbie.vue";
 import midu from "@/components/midu.vue";
+import chatrobot from "@/components/chatrobot.vue";
 import store from "@/store/index";
 import axios from 'axios';
 
 export default {
+  name:'browse',
   components: {
     tongji,
     xingbie,
-    midu
+    midu,
+    chatrobot,
   },
   data() {
     return {
+      loading:false,
       activeNames: ["工业设计"],
       isheng: true,
       choosenName: "",
@@ -341,6 +349,7 @@ export default {
   },
   methods: {
     choose(index) {
+      this.loading=true;
       this.choosenName = index;
       var majorPkg = {
         //统一格式
@@ -349,27 +358,35 @@ export default {
         province: this.location
       };
       var index2 = store.getters.search(majorPkg);
-      if (index2) {
-        store.state.majorNow = store.state.majors[index2 - 1];
+      if (index2) { 
+        //获得在列表中的位置，赋值给majorNow
+        store.state.majorNow=store.state.majors[index2-1]
       } else {
         //本地没有数据，向后端请求
         axios
-          .post("http://localhost:8090/subjectQuery", majorPkg)
+          .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
           .then(res => {
-            console.log("从后端接收到单个专业的数据", res.data.year2019);
-            if (res.status == 500) {
-              console.log("注意，找不到这个专业");
+            console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
+            if (res.data.fuck === null) {
+              this.$notify.info({
+              title: '找不到专业',
+              message: '可以试试更换文理科或省份哦'
+            });
+              console.log("后端数据返回-注意，找不到这个专业");
               return;
             } else {
-              //把已有和后端返回的信息写入vuex
-              store.commit("firstchange", majorPkg);
-              store.commit("wirtein", res.data);
+              //把已有和后端返回的信息写入majors列表
+              store.commit("writein",{"majorPkg": majorPkg,"receive":res.data});
+              //使majorNow的指针指向列表最后一个
+              store.commit("changeNow")
+              
             }
           })
           .catch(error => {
             console.log(error);
           });
       }
+      this.loading=false
     }
   }
 };
@@ -382,6 +399,6 @@ export default {
 }
 
 .jiange {
-  height: 3rem;
+  height: 2rem;
 }
 </style>
