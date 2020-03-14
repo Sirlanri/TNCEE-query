@@ -281,7 +281,7 @@
 import tongji from "@/components/tongji.vue";
 import xingbie from "@/components/xingbie.vue";
 import midu from "@/components/midu.vue";
-import chatrobot from "@/components/chatrobot.vue";
+// import chatrobot from "@/components/chatrobot.vue";
 import store from "@/store/index";
 import axios from 'axios';
 
@@ -291,7 +291,7 @@ export default {
     tongji,
     xingbie,
     midu,
-    chatrobot,
+    // chatrobot,
   },
   data() {
     return {
