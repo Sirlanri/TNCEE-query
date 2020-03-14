@@ -104,7 +104,7 @@ export default {
         "type":this.type
       }
       this.loading=true
-      axios.post('https://api.ri-co.cn/gaokaov1.0/scoreQuery',sendData)
+      axios.post('http://loaclhost:8080/scoreQuery',sendData)
         .then(res=>{
           if (res.status==200){
             this.suitMajors=[]
@@ -125,6 +125,8 @@ export default {
         });
         this.loading=false
     },
+
+    //这个跳转暂时用不了，以后想办法解决
     handleClick(item){
       console.log(item.profession,'准备-执行跳转操作');
       var majorPkg={
@@ -135,7 +137,6 @@ export default {
         store.state.majorNow = store.state.majors[result - 1];
       }else {
         //本地没有数据，向后端请求
-
         axios
           .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
           .then(res => {

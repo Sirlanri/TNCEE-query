@@ -364,7 +364,7 @@ export default {
       } else {
         //本地没有数据，向后端请求
         axios
-          .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
+          .post("http://loaclhost:8080/subjectQuery", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
             if (res.data.fuck === null) {
