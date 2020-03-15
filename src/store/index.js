@@ -68,6 +68,7 @@ export default new Vuex.Store({
       console.log("X轴数据：",maxormin);
       return maxormin
     },
+    
     //以下列表形式可能要进行更改为对象格式
     //获得对应的分数密度数据
     get17:(state)=>key=>{
@@ -88,7 +89,31 @@ export default new Vuex.Store({
       }
       return state.majorNow.data19[key].gradeProportion
     },
-    
+
+    getrankx19:(state)=>(numScore)=>{
+      var temp=state.majorNow.data19[numScore]
+      if (temp != null) {
+        return temp.rank
+      }else{
+        return null
+      }
+    },
+    getrankx18:(state)=>(numScore)=>{
+      var temp=state.majorNow.data18[numScore]
+      if (temp != null) {
+        return temp.rank
+      }else{
+        return null
+      }
+    },
+    getrankx17:(state)=>(numScore)=>{
+      var temp=state.majorNow.data17[numScore]
+      if (temp != null) {
+        return temp.rank
+      }else{
+        return null
+      }
+    },
     //获取位次
     getrank19:(state)=>key=>{
       if (state.majorNow.data19[key] == undefined) {

@@ -1,5 +1,21 @@
 <template>
-  <div class="rank"></div>
+  <div>
+    <el-row type="flex" justify="center">
+      <el-radio-group v-model="which">
+        <el-radio-button label="year2019">
+          2019
+        </el-radio-button>
+        <el-radio-button label="year2018">
+          2018
+        </el-radio-button>
+        <el-radio-button label="year2017">
+          2017
+        </el-radio-button>
+      </el-radio-group>
+    </el-row>
+    <div class="rank"></div>
+  </div>
+
 </template>
 
 <script>
@@ -10,7 +26,12 @@ export default {
   name:'',
   data(){
     return{
-      charts:''
+      charts:'',
+      which:'year2019',
+      ranksNow:{
+        ranksX:[],
+        ranksY:[],
+      }
     }
   },
 
@@ -18,15 +39,23 @@ export default {
     majorNow: function() {
       return store.state.majorNow;
     },
+
     xdata: function() {
-      return store.getters.getX;
+      //返回X轴的名次
+      var scoresX=store.getters.getX
+      var ranks=[]
+      scoresX.forEach(score => {
+        ranks.push(store.state.getters.getrankx(score))
+      });
+      return ranks
     },
+
     rank19: function() {
       var after = [];
       for (var key in this.xdata) {
         var value = store.getters.getrank19(this.xdata[key]);
         if (typeof value == "undefined") {
-          value = 0;
+          value = null;
         }
         after.push(value);
       }
@@ -38,7 +67,7 @@ export default {
       for (var key in this.xdata) {
         var value = store.getters.getrank18(this.xdata[key]);
         if (typeof value == "undefined") {
-          value = 0;
+          value = null;
         }
         after.push(value);
       }
@@ -50,7 +79,7 @@ export default {
       for (var key in this.xdata) {
         var value = store.getters.getrank17(this.xdata[key]);
         if (typeof value == "undefined") {
-          value = 0;
+          value = null;
         }
         after.push(value);
       }
@@ -63,7 +92,8 @@ export default {
     majorNow: function() {
       console.log("密度，监听到majorNow改变");
       this.drawLine("midu");
-    }
+    },
+    
   },
 
   methons:{
@@ -79,8 +109,8 @@ export default {
       this.charts.setOption({
 
         title: {
-          text: "分数密度统计表",
-          subtitle: "每一分的人数占比",
+          text: "位次密度统计表",
+          subtitle: "某一位次的人数占比",
           left: "right",
           top: "top",
           textStyle: {
@@ -88,7 +118,7 @@ export default {
           }
         },
 
-        color: ["#0061c2", "#cf0091", "#dd7703", "#57abff","#ff34c2","#ff9d2d"],
+        color: [ "#57abff","#ff34c2","#ff9d2d"],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -118,7 +148,7 @@ export default {
           {
             type: "category",
             axisTick: { show: false },
-            data: store.getters.getX
+            data: this.xdata
           }
         ],
 
@@ -138,16 +168,19 @@ export default {
           {
             name:'19级位次',
             type:'line',
+            label:labelOption,
             data:this.rank19
           },
           {
             name:'18级位次',
             type:'line',
+            label:labelOption,
             data:this.rank18
           },
           {
             name:'17级位次',
             type:'line',
+            label:labelOption,
             data:this.rank17
           },
         ]
