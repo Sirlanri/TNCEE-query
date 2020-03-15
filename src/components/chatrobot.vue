@@ -80,8 +80,7 @@ import axios from 'axios';
 					isUser: true,
         };
         this.message_array.push(msg);
-				
-        axios.post('http://localhost:8090/robot',this.input)
+        axios.post('http://localhost:8090/robot',{"text":this.input})
           .then(res=>{
             let msgre = {
               time: this.nowtime,

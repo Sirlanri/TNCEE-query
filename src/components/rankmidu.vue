@@ -42,7 +42,41 @@ export default {
       return store.state.majorNow;
     },
 
-    //获得X轴数据，根据which的不同，选择不同年份的getter方法
+    
+  },
+
+  watch: {
+    majorNow: function() {
+      console.log("位次图-密度，监听到majorNow改变");
+      this.drawLine("rank");
+    },
+
+    //根据which变化，更改表中数据的年份
+    which:function(){
+      switch (this.which) {
+        case 'year2019':
+          this.ranksNow.ranksX=this.xdata19
+          this.ranksNow.ranksY=this.rank19
+          this.drawLine("rank");
+          break;
+        case 'year2018':
+          this.ranksNow.ranksX=this.xdata18
+          this.ranksNow.ranksY=this.rank18
+          this.drawLine("rank");
+          break;
+        case 'year2017':
+          this.ranksNow.ranksX=this.xdata17
+          this.ranksNow.ranksY=this.rank17
+          this.drawLine("rank");
+          break;
+        default:
+          break;
+      }
+      
+    }
+  },
+
+  methods:{//获得X轴数据，根据which的不同，选择不同年份的getter方法
     xdata19: function() {
       //返回X轴的位次
       var scoresX=store.getters.getX
@@ -108,37 +142,6 @@ export default {
       console.log("Y17位次数据", after);
       return after;
     },
-  },
-
-  watch: {
-    majorNow: function() {
-      console.log("密度，监听到majorNow改变");
-      this.drawLine("rank");
-    },
-
-    //根据which变化，更改表中数据的年份
-    which:function(){
-      switch (this.which) {
-        case 'year2019':
-          this.ranksNow.ranksX=this.xdata19
-          this.ranksNow.ranksY=this.rank19
-          break;
-        case 'year2018':
-          this.ranksNow.ranksX=this.xdata18
-          this.ranksNow.ranksY=this.rank18
-          break;
-        case 'year2017':
-          this.ranksNow.ranksX=this.xdata17
-          this.ranksNow.ranksY=this.rank17
-          break;
-        default:
-          break;
-      }
-      
-    }
-  },
-
-  methods:{
 
     drawLine(classname){
       this.charts = echarts.init(document.getElementsByClassName(classname)[0]);
@@ -192,7 +195,7 @@ export default {
           {
             type: "category",
             axisTick: { show: false },
-            data: this.xdata
+            data: this.ranksNow.rank19
           }
         ],
 

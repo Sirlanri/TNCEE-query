@@ -30,7 +30,7 @@
         </el-row>
         
         <el-divider></el-divider>
-        <keep-alive>
+        
 
         <el-row type="flex" justify="center">
           <el-col :span="6">
@@ -42,7 +42,7 @@
           </el-col>
         </el-row>
 
-        <el-table :data="whichyear"
+        <el-table :data="suitMajorsNow"
           style="width:100%">
         <el-table-column prop="profession" label="专业名称" width="200">
         </el-table-column>
@@ -69,7 +69,6 @@
            -->
         </el-table>
         
-        </keep-alive>
 
         
         
@@ -104,18 +103,38 @@ export default {
       ],  
       suitMajors18:[],
       suitMajors17:[],
+      suitMajorsNow:[],
 
 
+    }
+  },
+  watch:{
+    whichyear:function(){
+      switch (this.whichyear) {
+        case 'suitMajors19':
+          this.suitMajorsNow=this.suitMajors19
+          break;
+        case 'suitMajors18':
+          this.suitMajorsNow=this.suitMajors18
+          break;
+        case 'suitMajors17':
+          this.suitMajorsNow=this.suitMajors17
+          break;
+      
+        default:
+          break;
+      }
     }
   },
   methods:{
     clearzero(words){
       //把0替代成暂无数据
-      words.forEach(single=>{
-        if (single==0) {
-          single="暂无数据"
+      for (const key in words) {
+        if (words[key]==0) {
+          words[key]='暂无数据'
         }
-      })
+      }
+      
       return words
     },
 
@@ -133,21 +152,22 @@ export default {
             this.suitMajors=[]
             res.data.year2019.forEach(element => {
               element=this.clearzero(element)
-              element.max=element.maxScore+'/'+element.maxRange
+              element.max=element.maxScore+'/'+element.maxRank
               element.ave=element.average+'/'+element.averageRank
               element.min=element.minScore+'/'+element.minRank
               this.suitMajors19.push(element)
+              this.suitMajorsNow=this.suitMajors19
             });
             res.data.year2018.forEach(element => {
               element=this.clearzero(element)
-              element.max=element.maxScore+'/'+element.maxRange
+              element.max=element.maxScore+'/'+element.maxRank
               element.ave=element.average+'/'+element.averageRank
               element.min=element.minScore+'/'+element.minRank
               this.suitMajors18.push(element)
             });
             res.data.year2017.forEach(element => {
               element=this.clearzero(element)
-              element.max=element.maxScore+'/'+element.maxRange
+              element.max=element.maxScore+'/'+element.maxRank
               element.ave=element.average+'/'+element.averageRank
               element.min=element.minScore+'/'+element.minRank
               this.suitMajors17.push(element)
