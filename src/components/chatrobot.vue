@@ -10,12 +10,17 @@
 								<div class="user-msg-time">
 									{{item.time}}
 								</div>
-								<div>
-									
+								<div v-if="item.isUser">
 									<div class="user-msg-content">{{item.text}}</div>
 									<div class="user-msg-avatar">
 										<img src="../assets/user.png">
 									</div>
+								</div>
+								<div v-else>
+									<div class="bot-msg-avatar">
+										<img src="../assets/robot.png">
+									</div>
+									<div class="bot-msg-content">{{item.text}}</div>
 								</div>
 							</div>
 						</li>
@@ -71,10 +76,20 @@
 				let msg = {
 					time: this.nowtime,
 					text: this.input,
-				}
+					isUser: true,
+				};
 				this.message_array.push(msg);
 				this.input = "";
-			}
+				this.backMessage();
+			},
+			backMessage: function() {
+				let msg = {
+					time: this.nowtime,
+					text: "fuck you",
+					isUser: false,
+				};
+				this.message_array.push(msg);
+			},
 		}
 	}
 </script>
@@ -130,30 +145,44 @@
 		margin-bottom: 1px;
 	}
 
-	.user-msg-content {
-		text-align: right;
+	.user-msg-content, .bot-msg-content {
 		border: 0px solid #d7dae2;
 		background: white;
 		border-radius: 5px;
 		min-height: 2rem;
 		line-height: 2rem;
 		display: inline-block;
-		width: 10rem;
-		position: relative;
-		left: 39%;
+		width: 26rem;
+		vertical-align: top;
 		padding-right: 10px;
 		padding-left: 10px;
-		vertical-align: top;
-		
 		text-align: justify;
 		text-justify: newspaper;
 		word-break: break-all;
 	}
 	
+	.user-msg-content {
+		text-align: right;
+		position: relative;
+		left: 29%;
+	}
+	
+	.bot-msg-content {
+		text-align: left;
+		position: relative;
+		left: -33%;
+	}
+	
 	.user-msg-avatar {
 		display: inline-block;
 		position: relative;
-		left: 40%;
+		left: 30%;
+	}
+	
+	.bot-msg-avatar {
+		display: inline-block;
+		position: relative;
+		left: -34%;
 	}
 	
 	.user-msg-avatar img {
