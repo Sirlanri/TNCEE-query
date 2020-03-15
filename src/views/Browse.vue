@@ -293,6 +293,7 @@ export default {
     tongji,
     xingbie,
     midu,
+    rankmidu,
     // chatrobot,
   },
   data() {

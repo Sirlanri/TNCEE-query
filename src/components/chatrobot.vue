@@ -37,6 +37,7 @@
 
 
 <script>
+import axios from 'axios';
 	Date.prototype.format = function(fmt) {
 		var o = {
 			"M+": this.getMonth() + 1, //月份
@@ -77,19 +78,21 @@
 					time: this.nowtime,
 					text: this.input,
 					isUser: true,
-				};
-				this.message_array.push(msg);
-				this.input = "";
-				this.backMessage();
+        };
+        this.message_array.push(msg);
+				
+        axios.post('http://localhost:8090/robot',this.input)
+          .then(res=>{
+            let msgre = {
+              time: this.nowtime,
+              text: res.data,
+              isUser: false,
+            };
+            this.message_array.push(msgre);
+          })
+        this.input = "";
 			},
-			backMessage: function() {
-				let msg = {
-					time: this.nowtime,
-					text: "fuck you",
-					isUser: false,
-				};
-				this.message_array.push(msg);
-			},
+			
 		}
 	}
 </script>

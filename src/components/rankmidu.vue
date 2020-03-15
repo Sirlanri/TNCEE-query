@@ -26,13 +26,15 @@ export default {
   name:'',
   data(){
     return{
-      charts:'',
+      charts:"",
       which:'year2019',
       ranksNow:{
         ranksX:[],
         ranksY:[],
-      }
-    }
+      },
+
+      
+    };
   },
 
   computed:{
@@ -40,15 +42,35 @@ export default {
       return store.state.majorNow;
     },
 
-    xdata: function() {
-      //返回X轴的名次
+    //获得X轴数据，根据which的不同，选择不同年份的getter方法
+    xdata19: function() {
+      //返回X轴的位次
       var scoresX=store.getters.getX
       var ranks=[]
       scoresX.forEach(score => {
-        ranks.push(store.state.getters.getrankx(score))
+        ranks.push(store.getters.getrankx19(score))
       });
       return ranks
     },
+    xdata18: function() {
+      //返回X轴的位次
+      var scoresX=store.getters.getX
+      var ranks=[]
+      scoresX.forEach(score => {
+        ranks.push(store.getters.getrankx18(score))
+      });
+      return ranks
+    },
+    xdata17: function() {
+      //返回X轴的位次
+      var scoresX=store.getters.getX
+      var ranks=[]
+      scoresX.forEach(score => {
+        ranks.push(store.getters.getrankx17(score))
+      });
+      return ranks
+    },
+
 
     rank19: function() {
       var after = [];
@@ -91,14 +113,36 @@ export default {
   watch: {
     majorNow: function() {
       console.log("密度，监听到majorNow改变");
-      this.drawLine("midu");
+      this.drawLine("rank");
     },
-    
+
+    //根据which变化，更改表中数据的年份
+    which:function(){
+      switch (this.which) {
+        case 'year2019':
+          this.ranksNow.ranksX=this.xdata19
+          this.ranksNow.ranksY=this.rank19
+          break;
+        case 'year2018':
+          this.ranksNow.ranksX=this.xdata18
+          this.ranksNow.ranksY=this.rank18
+          break;
+        case 'year2017':
+          this.ranksNow.ranksX=this.xdata17
+          this.ranksNow.ranksY=this.rank17
+          break;
+        default:
+          break;
+      }
+      
+    }
   },
 
-  methons:{
+  methods:{
+
     drawLine(classname){
       this.charts = echarts.init(document.getElementsByClassName(classname)[0]);
+
       var labelOption = {
         rich: {
           name: {
@@ -169,20 +213,8 @@ export default {
             name:'19级位次',
             type:'line',
             label:labelOption,
-            data:this.rank19
-          },
-          {
-            name:'18级位次',
-            type:'line',
-            label:labelOption,
-            data:this.rank18
-          },
-          {
-            name:'17级位次',
-            type:'line',
-            label:labelOption,
-            data:this.rank17
-          },
+            data:this.ranksNow.ranksY
+          }
         ]
 
       })
