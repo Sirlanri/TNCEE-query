@@ -127,7 +127,7 @@ export default {
         "type":this.type
       }
       this.loading=true
-      axios.post('http://loaclhost:8090/rankQuery',sendData)
+      axios.post('http://localhost:8090/rankQuery',sendData)
         .then(res=>{
           if (res.status==200){
             this.suitMajors=[]

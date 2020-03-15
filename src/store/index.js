@@ -50,6 +50,7 @@ export default new Vuex.Store({
       console.log("本地没有此数据");
       return 0
     },
+
     getX:(state)=>{
       var maxormin=[];
       
@@ -67,14 +68,47 @@ export default new Vuex.Store({
       console.log("X轴数据：",maxormin);
       return maxormin
     },
+    //以下列表形式可能要进行更改为对象格式
+    //获得对应的分数密度数据
     get17:(state)=>key=>{
-      return state.majorNow.data17[key]
+      if (state.majorNow.data17[key] == undefined) {
+        return 0
+      }
+      return state.majorNow.data17[key].gradeProportion
     },
     get18:(state)=>key=>{
-      return state.majorNow.data18[key]
+      if (state.majorNow.data18[key] == undefined) {
+        return 0
+      }
+      return state.majorNow.data18[key].gradeProportion
     },
     get19:(state)=>key=>{
-      return state.majorNow.data19[key]
+      if (state.majorNow.data19[key] == undefined) {
+        return 0
+      }
+      return state.majorNow.data19[key].gradeProportion
+    },
+    
+    //获取位次
+    getrank19:(state)=>key=>{
+      if (state.majorNow.data19[key] == undefined) {
+        return null
+      }
+      else{
+        return state.majorNow.data19[key].rank
+      }
+    },
+    getrank18:(state)=>key=>{
+      if (state.majorNow.data18[key] == undefined) {
+        return null
+      }
+      return state.majorNow.data18[key].rank
+    },
+    getrank17:(state)=>key=>{
+      if (state.majorNow.data17[key] == undefined) {
+        return null
+      }
+      return state.majorNow.data17[key].rank
     },
   },
   mutations: {
