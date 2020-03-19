@@ -23,14 +23,14 @@
 <script>
 import forecast from "@/views/Forecast.vue";
 import browse from "@/views/Browse.vue";
-import chatrobot from "@/components/chatrobot.vue";
+import chatrobot2 from "@/components/chatrobot2.vue";
 
 export default {
   name: "Home",
   components: {
     first: forecast,
     second: browse,
-    robot: chatrobot,
+    robot: chatrobot2,
   },
   data() {
     return {
