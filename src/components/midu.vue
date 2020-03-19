@@ -93,7 +93,7 @@ export default {
           axisPointer: {
             type: "line"
           },
-          /*
+          
           formatter: function(params) {
             var relVal = params[0].name;
             for (var i = 0, l = params.length; i < l; i++) {
@@ -106,7 +106,7 @@ export default {
             }
             return relVal;
           }
-          */
+          
         },
 
         legend: {
