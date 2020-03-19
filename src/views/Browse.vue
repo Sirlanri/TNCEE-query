@@ -268,7 +268,7 @@
               <div class="jiange"></div>
               <midu></midu>
               <div class="jiange"></div>
-             <rankmidu></rankmidu>
+              
             </el-col>
           </el-row>
           
@@ -282,8 +282,7 @@
 import tongji from "@/components/tongji.vue";
 import xingbie from "@/components/xingbie.vue";
 import midu from "@/components/midu.vue";
-import rankmidu from "@/components/rankmidu.vue";
-// import chatrobot from "@/components/chatrobot.vue";
+//import rankmidu from "@/components/rankmidu.vue";
 import store from "@/store/index";
 import axios from 'axios';
 
@@ -293,8 +292,8 @@ export default {
     tongji,
     xingbie,
     midu,
-    rankmidu,
-    // chatrobot,
+    //rankmidu,
+
   },
   data() {
     return {
