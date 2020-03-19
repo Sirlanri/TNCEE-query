@@ -103,7 +103,7 @@ export default {
       };
       this.message_array.push(msg);
       axios
-        .post("http://localhost:8090/robot", { text: this.input })
+        .post("https://api.ri-co.cn/gaokaov1.0/robot", { text: this.input })
         .then(res => {
           let msgre = {
             time: this.nowtime,

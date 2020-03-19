@@ -146,7 +146,7 @@ export default {
         "type":this.type
       }
       this.loading=true
-      axios.post('http://localhost:8090/rankQuery',sendData)
+      axios.post('https://api.ri-co.cn/gaokaov1.0/rankQuery',sendData)
         .then(res=>{
           if (res.status==200){
             this.suitMajors=[]
