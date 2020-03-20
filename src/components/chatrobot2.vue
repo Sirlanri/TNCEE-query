@@ -173,9 +173,7 @@
 
 	.robotmsg {
 		margin-left: 0.5rem;
-		padding-left: 0.5rem;
-		padding-top: 0.5rem;
-		padding-right: 0.5rem;
+		padding: 0.5rem;
 		box-shadow: 0px 1px 5px #b8b8b8;
 		border-radius: 10px;
 		max-width: 60%;
