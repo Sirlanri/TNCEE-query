@@ -55,6 +55,14 @@
         <el-table-column
           prop="min" label="最低分数/名次" 
         ></el-table-column>
+        <el-table-column
+          prop="idea" label="建议" >
+          <template slot-scope="scope">
+            <el-tag
+              :type="panduan(scope.row.idea )"
+              disable-transitions>{{scope.row.idea}}</el-tag>
+          </template>
+        </el-table-column>
         
           <!--
         <el-table-column
@@ -127,6 +135,17 @@ export default {
     }
   },
   methods:{
+    panduan(idea){
+      if (idea=="稳健") {
+        return "success"
+      }
+      if (idea == "冲刺") {
+        return "danger"
+      }
+      if (idea == "保底") {
+        return "info"
+      }
+    },
     clearzero(words){
       //把0替代成暂无数据
       for (const key in words) {
@@ -163,6 +182,7 @@ export default {
               element.max=element.maxScore+'/'+element.maxRank
               element.ave=element.average+'/'+element.averageRank
               element.min=element.minScore+'/'+element.minRank
+              
               this.suitMajors18.push(element)
             });
             res.data.year2017.forEach(element => {
