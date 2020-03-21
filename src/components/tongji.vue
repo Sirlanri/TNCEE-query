@@ -35,7 +35,7 @@ export default {
           trigger:'axis'
         },
         legend:{
-          data:['最低分','平均分','最低名次']
+          data:['平均分','最低分','最低名次']
         },
         color:["#0044d6","#ca00a9","#10c400"],
 
@@ -82,6 +82,7 @@ export default {
             type:'line',
             data:this.convert(this.majorNow.scoremin)
           },
+          
           {
             name:'最低名次',
             type:'line',

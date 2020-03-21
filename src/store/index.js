@@ -150,9 +150,9 @@ export default new Vuex.Store({
       major1.rankmin={};
       major1.scoreave={};
       //最低分
-      major1.scoremin.min19=all.receive.year2019.minGrade
-      major1.scoremin.min18=all.receive.year2018.minGrade
       major1.scoremin.min17=all.receive.year2017.minGrade
+      major1.scoremin.min18=all.receive.year2018.minGrade
+      major1.scoremin.min19=all.receive.year2019.minGrade
       //平均分
       major1.scoreave.ave17=all.receive.year2017.average
       major1.scoreave.ave18=all.receive.year2018.average

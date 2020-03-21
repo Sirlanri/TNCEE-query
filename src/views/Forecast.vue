@@ -18,10 +18,10 @@
             </el-select>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="score" placeholder="高考分数"></el-input>
+            <el-input v-model="score" placeholder="高考分数(可选)"></el-input>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="rank" placeholder="排名"></el-input>
+            <el-input v-model="rank" placeholder="排名(必填)"></el-input>
           </el-col>
           <el-col :span='4'>
             <el-button type="primary" @click="lookfor">查询</el-button>
