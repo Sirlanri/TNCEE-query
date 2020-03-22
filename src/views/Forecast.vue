@@ -170,6 +170,9 @@
 						.then(res => {
 							if (res.status == 200) {
 								this.suitMajors = []
+								this.suitMajors19=[]
+								this.suitMajors18=[]
+								this.suitMajors17=[]
 								res.data.year2019.forEach(element => {
 									element = this.clearzero(element)
 									element.max = element.maxScore + '/' + element.maxRank
