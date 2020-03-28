@@ -98,7 +98,7 @@
 				let test = document.getElementById("gogo").scrollHeight;
 				console.log("用户发送：" + test);
 				axios
-					.post("http://localhost:8090/robot", {
+					.post("https://api.ri-co.cn/gaokaov1.0/robot", {
 						text: this.input
 					})
 					.then(res => {
