@@ -29,15 +29,6 @@
 		<el-divider></el-divider>
 
 
-		<el-row type="flex" justify="center">
-			<el-col :span="6">
-				<el-radio-group v-model="whichyear" style="margin-bottom: 10px; margin-top:20px'">
-					<el-radio-button label="suitMajors19">2019</el-radio-button>
-					<el-radio-button label="suitMajors18">2018</el-radio-button>
-					<el-radio-button label="suitMajors17">2017</el-radio-button>
-				</el-radio-group>
-			</el-col>
-		</el-row>
 
 		<el-table :data="suitMajorsNow" style="width:100%">
 			<el-table-column prop="profession" label="专业名称" width="200">
@@ -79,7 +70,6 @@
 		name: 'forecast',
 		data() {
 			return {
-				whichyear: 'suitMajors19',
 				loading: false,
 				province: '山东',
 				score: '',
@@ -94,34 +84,14 @@
 					'理工', '文史', '艺术文', '艺术理', '200'
 				],
 
-				//分year2019 year2018 year2017
-				suitMajors19: [
-					//每个元素有 profession minScore maxScore minRank averageRank maxRange average idea 
-				],
-				suitMajors18: [],
-				suitMajors17: [],
+				//每个元素有 profession minScore maxScore minRank averageRank maxRange average idea 
 				suitMajorsNow: [],
 
 
 			}
 		},
 		watch: {
-			whichyear: function() {
-				switch (this.whichyear) {
-					case 'suitMajors19':
-						this.suitMajorsNow = this.suitMajors19
-						break;
-					case 'suitMajors18':
-						this.suitMajorsNow = this.suitMajors18
-						break;
-					case 'suitMajors17':
-						this.suitMajorsNow = this.suitMajors17
-						break;
-
-					default:
-						break;
-				}
-			}
+			
 		},
 		methods: {
 			errmsg() {
@@ -160,45 +130,23 @@
 					this.errmsg();
 				} else {
 					var sendData = {
-						"score": this.score,
+						"score": parseInt(this.score),
 						"province": this.province,
-						"rank": this.rank,
+						"rank": parseInt(this.rank),
 						"type": this.type
 					}
 					this.loading = true
-					axios.post('https://api.ri-co.cn/gaokaov1.0/rankQuery', sendData)
+					this.suitMajorsNow = []
+					axios.post('http://localhost:8090/go/recommend', sendData)
 						.then(res => {
-							if (res.status == 200) {
-								this.suitMajors = []
-								this.suitMajors19=[]
-								this.suitMajors18=[]
-								this.suitMajors17=[]
-								res.data.year2019.forEach(element => {
+							if (res.status == 200) {								
+								res.data.forEach(element => {
 									element = this.clearzero(element)
-									element.max = element.maxScore + '/' + element.maxRank
-									element.ave = element.average + '/' + element.averageRank
-									element.min = element.minScore + '/' + element.minRank
-									this.suitMajors19.push(element)
-									this.suitMajorsNow = this.suitMajors19
+									element.max = element.maxscore + '/' + element.maxrank
+									element.ave = element.avescore + '/' + element.averank
+									element.min = element.minscore + '/' + element.minrank
+									this.suitMajorsNow.push(element)
 								});
-								res.data.year2018.forEach(element => {
-									element = this.clearzero(element)
-									element.max = element.maxScore + '/' + element.maxRank
-									element.ave = element.average + '/' + element.averageRank
-									element.min = element.minScore + '/' + element.minRank
-
-									this.suitMajors18.push(element)
-								});
-								res.data.year2017.forEach(element => {
-									element = this.clearzero(element)
-									element.max = element.maxScore + '/' + element.maxRank
-									element.ave = element.average + '/' + element.averageRank
-									element.min = element.minScore + '/' + element.minRank
-									this.suitMajors17.push(element)
-								});
-
-
-
 							} else {
 								this.$notify.info({
 									title: '提示',
@@ -228,7 +176,7 @@
 						.post("http://localhost:8090/subjectQuery", majorPkg)
 						.then(res => {
 							console.log("从后端接收到单个专业的数据", res.data.year2019);
-							if (res.data.year2019 == []) {
+							if (res.data == []) {
 								this.$notify.info({
 									title: '消息',
 									message: '没有合适的专业哦~'
