@@ -10,9 +10,7 @@
           <el-tab-pane label="浏览各专业分数" name="browse">
             <second></second>
           </el-tab-pane>
-          <el-tab-pane label="聊天机器人" name="chatrobot">
-            <robot></robot>
-          </el-tab-pane>
+          
         </el-tabs>
 
       </el-col>
@@ -23,14 +21,12 @@
 <script>
 import forecast from "@/views/Forecast.vue";
 import browse from "@/views/Browse.vue";
-import chatrobot2 from "@/components/chatrobot2.vue";
 
 export default {
   name: "Home",
   components: {
     first: forecast,
     second: browse,
-    robot: chatrobot2,
   },
   data() {
     return {
