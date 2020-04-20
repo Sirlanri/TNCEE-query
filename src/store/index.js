@@ -8,28 +8,16 @@ export default new Vuex.Store({
 
     majorNow:{  //当前选中的专业
       name:'',type:'',province:'',
-      //三届的平均 最低分
-      scoreave:{
-        ave17:0,  
-        ave18:0, 
-        ave19:0,
-      },
-      rankmin:{
-        rank17:0, 
-        rank18:0,
-        rank19:0,
-      },
-      scoremin:{
-        min17:0,  
-        min18:0, 
-        min19:0, 
-      },
-      //每一分的详细信息
-      data19:{},
-      data18:{},
-      data17:{},
-      
-      sex:0.01, //男女比
+      //三届的平均 最低分 最低位次
+      scoreave:[],
+      rankmin:[],
+      scoremin:[],
+      //密度图数据
+      axisx:[],
+      axis17:[],
+      axis18:[],
+      axis19:[],
+      sex:0.01, //男女比=男/总
 
     },
     
@@ -52,42 +40,23 @@ export default new Vuex.Store({
     },
 
     getX:(state)=>{
-      var maxormin=[];
-      
-      var min17 = Math.min.apply(null,Object.keys(state.majorNow.data17))
-      var max17 = Math.max.apply(null,Object.keys(state.majorNow.data17))
-      var min18 = Math.min.apply(null,Object.keys(state.majorNow.data18))
-      var max18 = Math.max.apply(null,Object.keys(state.majorNow.data18))
-      var min19 = Math.min.apply(null,Object.keys(state.majorNow.data19))
-      var max19 = Math.max.apply(null,Object.keys(state.majorNow.data19))
-      var finalmin = Math.min(min17,min18,min19)
-      var finalmax = Math.max(max17,max18,max19)
-      for (let index = finalmin; index <= finalmax; index++) {
-        maxormin.push(index)
-      }
-      console.log("X轴数据：",maxormin);
-      return maxormin
+      console.log("X轴数据：",state.majorNow.axisx);
+      return state.majorNow.axisx
     },
     
-    //以下列表形式可能要进行更改为对象格式
+    //Go版本，啥都不用处理，数据直接拿来用，爽！
     //获得对应的分数密度数据
-    get17:(state)=>key=>{
-      if (state.majorNow.data17[key] == undefined) {
-        return 0
-      }
-      return state.majorNow.data17[key].gradeProportion
+    get17:(state)=>{
+      console.log("获取17密度",state.majorNow.axis17);
+      return state.majorNow.axis17
     },
-    get18:(state)=>key=>{
-      if (state.majorNow.data18[key] == undefined) {
-        return 0
-      }
-      return state.majorNow.data18[key].gradeProportion
+    get18:(state)=>{
+      console.log("获取18密度",state.majorNow.axis18);
+      return state.majorNow.axis18
     },
-    get19:(state)=>key=>{
-      if (state.majorNow.data19[key] == undefined) {
-        return 0
-      }
-      return state.majorNow.data19[key].gradeProportion
+    get19:(state)=>{
+      console.log("获取19密度",state.majorNow.axis19);
+      return state.majorNow.axis19
     },
 
     getrankx19:(state)=>(numScore)=>{
@@ -145,27 +114,21 @@ export default new Vuex.Store({
       major1.name=all.majorPkg.profession;
       major1.type=all.majorPkg.type;
       major1.province=all.majorPkg.province;
-      major1.sex=all.receive.year2018.sex.manRate;
+      major1.sex=all.receive.sex;
       major1.scoremin={};
       major1.rankmin={};
       major1.scoreave={};
       //最低分
-      major1.scoremin.min17=all.receive.year2017.minGrade
-      major1.scoremin.min18=all.receive.year2018.minGrade
-      major1.scoremin.min19=all.receive.year2019.minGrade
+      major1.scoremin = all.receive.minscore  //一个列表，有三个元素，17 18 19
       //平均分
-      major1.scoreave.ave17=all.receive.year2017.average
-      major1.scoreave.ave18=all.receive.year2018.average
-      major1.scoreave.ave19=all.receive.year2019.average
+      major1.scoreave = all.receive.avescore
       //平均名次all.
-      major1.rankmin.rank17=all.receive.year2017.minRank
-      major1.rankmin.rank18=all.receive.year2018.minRank
-      major1.rankmin.rank19=all.receive.year2019.minRank
+      major1.rankmin = all.receive.minrank
       //一分详情
-      major1.data17=all.receive.year2017.data
-      major1.data18=all.receive.year2018.data
-      major1.data19=all.receive.year2019.data
-      //性别比
+      major1.axisx = all.receive.axisx
+      major1.axis17 = all.receive.axis17
+      major1.axis18 = all.receive.axis18
+      major1.axis19 = all.receive.axis19
 
       state.majors.push(major1)
       console.log("majors列表已更新");

@@ -2,7 +2,7 @@
   <div>
     <keep-alive>
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="4">
           <h4>选择专业</h4>
 
           <el-menu mode="horizontal" @select="choose">
@@ -365,10 +365,10 @@ export default {
       } else {
         //本地没有数据，向后端请求
         axios
-          .post("https://api.ri-co.cn/gaokaov1.0/subjectQuery", majorPkg)
+          .post("http://localhost:8090/go/numschange", majorPkg)
           .then(res => {
             console.log("从后端接收到单个专业的数据",this.choosenName, res.data.year2019);
-            if (res.data.fuck === null) {
+            if (res.status == 404) {
               this.$notify.info({
               title: '找不到专业',
               message: '可以试试更换文理科或省份哦'

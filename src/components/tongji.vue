@@ -75,31 +75,23 @@ export default {
           {
             name:"平均分",
             type:'line',
-            data:this.convert(this.majorNow.scoreave)
+            data:this.majorNow.scoreave
           },
           {
             name:"最低分",
             type:'line',
-            data:this.convert(this.majorNow.scoremin)
+            data:this.majorNow.scoremin
           },
           
           {
             name:'最低名次',
             type:'line',
             yAxisIndex: 1,
-            data:this.convert(this.majorNow.rankmin)
+            data:this.majorNow.rankmin
           }
         ]
       })
     },
-
-    convert(scores){
-      var after = [];
-      for (var score in scores) {
-        after.push(scores[score])
-      }
-      return after
-    }
   },
 
   

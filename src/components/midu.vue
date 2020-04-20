@@ -21,44 +21,16 @@ export default {
       return store.getters.getX;
     },
     data17: function() {
-      var after = [];
-      for (var key in this.xdata) {
-        var value = store.getters.get17(this.xdata[key]);
-        if (typeof value == "undefined") {
-          value = 0;
-        }
-        after.push(value);
-      }
-      console.log("Y17数据", after);
-      return after;
+      return store.getters.get17;
     },
     data18: function() {
-      var after = [];
-      for (var key in this.xdata) {
-        var value = store.getters.get18(this.xdata[key]);
-        if (typeof value == "undefined") {
-          value = 0;
-        }
-        after.push(value);
-      }
-      console.log("Y18数据", after);
-      return after;
+      return store.getters.get18;
     },
     data19: function() {
-      var after = [];
-      for (var key in this.xdata) {
-        var value = store.getters.get19(this.xdata[key]);
-        if (typeof value == "undefined") {
-          value = 0;
-        }
-        after.push(value);
-      }
-      console.log("Y19数据", after);
-      return after;
+      return store.getters.get19;
     },
-    
-
   },
+
   watch: {
     majorNow: function() {
       console.log("密度，监听到majorNow改变");
