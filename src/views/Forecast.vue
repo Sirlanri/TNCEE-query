@@ -137,7 +137,7 @@
 					}
 					this.loading = true
 					this.suitMajorsNow = []
-					axios.post('http://localhost:8090/go/recommend', sendData)
+					axios.post('https://api.ri-co.cn/go/recommend', sendData)
 						.then(res => {
 							if (res.status == 200) {								
 								res.data.forEach(element => {
